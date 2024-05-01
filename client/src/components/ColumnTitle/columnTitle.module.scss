@@ -1,0 +1,11 @@
+@use '../../sass/utils' as *;
+
+.column-title {
+  @include cell;
+
+  font-size: 1.8rem;
+
+  &--save {
+    cursor: pointer;
+  }
+}
