@@ -1,0 +1,33 @@
+@use '../../sass/utils' as *;
+
+.save-cell {
+	position: absolute;
+	top: 0;
+	left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	padding: 1rem;
+	width: 100%;
+	min-width: 150px;
+	height: 100%;
+  font-size: 1.6rem;
+  border: 1px solid $mainColor;
+  cursor: pointer;
+  z-index: 1;
+
+	&__container {
+		position: relative;
+    z-index: 0;
+	}
+
+	&--true {
+		color: #3a932c;
+		background-color: #a9f49d;
+	}
+
+	&--false {
+		color: #f00;
+		background-color: #ee9e9e;
+	}
+}
