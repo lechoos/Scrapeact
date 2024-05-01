@@ -1,0 +1,12 @@
+@use '../../sass/utils' as *;
+
+.cell {
+  @include cell;
+
+  font-size: 1.4rem;
+  background-color: $neutral;
+
+  &--phone {
+    text-align: center;
+  }
+}
