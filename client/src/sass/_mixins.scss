@@ -1,0 +1,5 @@
+@mixin cell {
+  padding: 1rem;
+	min-width: 150px;
+	border: 1px solid $mainColor;
+}
