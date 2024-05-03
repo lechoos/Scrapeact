@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
 import { Contact } from '../../types/Contact';
 import { ThreeDots } from 'react-loader-spinner';
 import styles from './form.module.scss';
@@ -135,7 +135,7 @@ const DATA = [
 
 
 interface FormProps {
-	setData: (contact: Contact[]) => Contact[];
+	setData: Dispatch<SetStateAction<Contact[]>>
 }
 
 export const Form = ({ setData }: FormProps) => {
