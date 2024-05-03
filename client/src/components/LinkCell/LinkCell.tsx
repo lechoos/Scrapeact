@@ -5,7 +5,7 @@ interface LinkProps {
   size: number;
 }
 
-export const LinkCell: React.FC<LinkProps> = ({ link, size }) => {
+export const LinkCell = ({ link, size }: LinkProps) => {
   return (
     <td width={size} className={styles['link-cell__container']}>
       <a className={styles['link-cell']} href={link}>Link</a>

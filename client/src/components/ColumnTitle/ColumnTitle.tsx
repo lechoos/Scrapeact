@@ -1,14 +1,14 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 import styles from './columnTitle.module.scss';
 
 interface ColumnProps {
   id: string;
   size: number; 
   onClick?: () => void;
-  children: ReactNode;
+  children: ReactElement;
 }
 
-export const ColumnTitle: React.FC<ColumnProps> = ({ id, size, onClick, children }) => {
+export const ColumnTitle = ({ id, size, onClick, children }: ColumnProps) => {
   const isSaveColumn = id === 'save' ? styles['column-title--save'] : ''
 
   const click = () => {

@@ -7,7 +7,7 @@ interface SaveProps {
   click: (e: EventTarget) => void
 }
 
-export const SaveCell: React.FC<SaveProps> = ({ checked, size, click }) => {
+export const SaveCell = ({ checked, size, click }: SaveProps) => {
   const text = checked ? 'Tak' : 'Nie';
 
   const clickHandler = (e: MouseEvent<HTMLTableCellElement>) => {

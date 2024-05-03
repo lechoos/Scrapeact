@@ -5,7 +5,7 @@ import { ContactsTable } from '../components/ContactsTable/ContactsTable';
 import { Form } from '../components/Form/Form';
 import { Footer } from '../components/Footer/Footer';
 
-export const Home: React.FC = () => {
+export const Home = () => {
 	const [data, setData] = useState<Contact[]>([]);
 
 	return (

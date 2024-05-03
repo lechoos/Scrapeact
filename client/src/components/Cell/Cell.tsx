@@ -1,4 +1,3 @@
-import React from "react";
 import styles from './cell.module.scss';
 
 interface CellProps {
@@ -6,7 +5,7 @@ interface CellProps {
   children: string
 }
 
-export const Cell: React.FC<CellProps> = ({ size, children }) => {
+export const Cell = ({ size, children }: CellProps) => {
   return (
     <td width={size} className={styles.cell}>{children}</td>
   )

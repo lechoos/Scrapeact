@@ -5,7 +5,7 @@ interface PhoneProps {
   children: string;
 }
 
-export const PhoneCell: React.FC<PhoneProps> = ({ size, children }) => {
+export const PhoneCell = ({ size, children }: PhoneProps) => {
 	return (
 		<td width={size} className={`${styles.cell} ${styles['cell--phone']}`}>
 			{children}
