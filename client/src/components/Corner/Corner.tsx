@@ -1,4 +1,4 @@
-import styles from './corner.module.scss';
+import styles from '../Form/form.module.scss';
 
 interface CornerProps {
   index: string;

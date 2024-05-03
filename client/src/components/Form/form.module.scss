@@ -42,26 +42,25 @@
 		&:focus {
 			outline: none;
 
-			& + fc.corners {
-				background-color: red;
-				c.corner.rotate--0 {
+			& + .corners {
+				.corner.rotate--0 {
 					transform: scale(1.3) translate(-10%, -10%);
 				}
 
-				c.corner.rotate--90 {
+				.corner.rotate--90 {
 					transform: scale(1.3) rotate(90deg) translate(-10%, -10%);
 				}
 
-				c.corner.rotate--180 {
+				.corner.rotate--180 {
 					transform: scale(1.3) rotate(180deg) translate(-10%, -10%);
 				}
 
-				c.corner.rotate--270 {
+				.corner.rotate--270 {
 					transform: scale(1.3) rotate(270deg) translate(-10%, -10%);
 				}
 
-				c.corner {
-					c.square {
+				.corner {
+					.square {
 						transform: translate(-75%, -75%) rotate(45deg);
 					}
 				}
