@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import styles from './home.module.scss';
-import { Contact } from '../types/Contact';
-import { ContactsTable } from '../components/ContactsTable/ContactsTable';
-import { Form } from '../components/Form/Form';
-import { Footer } from '../components/Footer/Footer';
+import styles from './main.module.scss';
+import { Contact } from '../../types/Contact';
+import { ContactsTable } from '../../components/ContactsTable/ContactsTable';
+import { MapsForm } from '../../components/MapsForm/Form';
+import { Footer } from '../../components/Footer/Footer';
 
-export const Home = () => {
+export const Main = () => {
 	const [data, setData] = useState<Contact[]>([]);
 
 	return (
@@ -18,7 +18,7 @@ export const Home = () => {
 					</p>
 				</header>
 				<main>
-					<Form setData={setData} />
+					<MapsForm setData={setData} />
 					{data.length > 0 ? (
 						<>
 							<div className='p-1'>
