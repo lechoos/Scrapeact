@@ -1,0 +1,31 @@
+@use '../../sass/utils' as *;
+
+@mixin link($bg) {
+  padding: 1em 2em;
+  font-size: 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: $bg;
+  }
+}
+
+.primary {
+  @include link($secondaryColor);
+
+  color: $secondaryColor; 
+  border: 3px solid $secondaryColor;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.secondary {
+  @include link($accentColor);
+
+  color: #fff;
+  background-color: $secondaryColor;
+}

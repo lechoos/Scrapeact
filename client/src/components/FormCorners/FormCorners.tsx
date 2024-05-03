@@ -1,5 +1,5 @@
 import styles from './formCorners.module.scss';
-import formStyles from '../Form/form.module.scss';
+import formStyles from '../MapsForm/form.module.scss';
 import { Corner } from '../Corner/Corner';
 
 export const FormCorners = () => {

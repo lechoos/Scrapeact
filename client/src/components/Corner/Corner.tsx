@@ -1,4 +1,4 @@
-import styles from '../Form/form.module.scss';
+import styles from '../MapsForm/form.module.scss';
 
 interface CornerProps {
   index: string;

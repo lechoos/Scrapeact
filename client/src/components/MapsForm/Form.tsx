@@ -138,7 +138,7 @@ interface FormProps {
 	setData: Dispatch<SetStateAction<Contact[]>>
 }
 
-export const Form = ({ setData }: FormProps) => {
+export const MapsForm = ({ setData }: FormProps) => {
 	const [link, setLink] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string>('');

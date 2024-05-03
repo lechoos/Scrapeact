@@ -2,11 +2,12 @@ import Lottie from 'lottie-react';
 import styles from './lottieAnimation.module.scss';
 
 interface LottieType {
-  animationData: object
+  animationData: object;
+  classes?: string;
 }
 
-export const LottieAnimation = ({ animationData }: LottieType) => {
+export const LottieAnimation = ({ animationData, classes }: LottieType) => {
   return (
-    <Lottie animationData={animationData} className={styles.lottie} />
+    <Lottie animationData={animationData} className={`${styles.lottie} ${classes}`} />
   )
 };
