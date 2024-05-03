@@ -1,0 +1,30 @@
+@use '../sass/utils' as *;
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+
+  &__title {
+    margin-top: 7rem;
+    font-size: 4rem;
+    text-align: center;
+    letter-spacing: -1px;
+
+    @include medium {
+      font-size: 6rem;
+    }
+  }
+
+  &__text {
+    font-size: 1.6rem;
+    text-align: justify;
+  }
+}
+
+.warning {
+	@include medium {
+		display: none;
+	}
+}

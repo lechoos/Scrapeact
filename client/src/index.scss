@@ -1,0 +1,38 @@
+@use './sass/utils' as *;
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*::selection {
+  color: #fff;
+  background-color: $accentColor; 
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Ubuntu', 'sans-serif';
+  background-color: $mainColor;
+  color: $neutral;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.p-1 {
+  padding-inline: 1rem;
+}
+
+.p-2 {
+  padding-inline: 2rem;
+}

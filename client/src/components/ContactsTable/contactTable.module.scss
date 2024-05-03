@@ -1,0 +1,86 @@
+@use '../../sass/utils' as *;
+
+.table {
+	width: 100%;
+	color: #fff;
+	border-collapse: collapse;
+
+	&__container {
+		display: none;
+
+		@include medium {
+			display: block;
+		}
+	}
+
+	&-wrapper {
+		padding-inline: 1rem;
+	}
+
+	&__header-item,
+	&__cell {
+		padding: 1rem;
+		min-width: 150px;
+		border: 1px solid $mainColor;
+	}
+
+	&__header {
+		background-color: $accentColor;
+
+		&-item {
+			position: relative;
+			font-size: 1.8rem;
+		}
+	}
+
+	&__cell {
+		position: relative;
+		font-size: 1.4rem;
+	}
+}
+
+.warning {
+	@include medium {
+		display: none;
+	}
+}
+
+@mixin button {
+	padding: 1.5em 2em;
+	font-size: 1.4rem;
+	color: #fff;
+	background-color: $accentColor;
+	border: none;
+	border-radius: 3px;
+	transition: background-color 0.3s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $secondaryColor;
+	}
+}
+
+.pagination {
+	&__buttons {
+		display: flex;
+		justify-content: space-evenly;
+		padding: 4rem 0 6rem;
+	}
+
+	&__button {
+		@include button;
+	}
+}
+
+.save {
+	&__container {
+		display: flex;
+		justify-content: center;
+	}
+
+	&__button {
+		@include button;
+
+		margin: 2rem auto 8rem;
+	}
+}
