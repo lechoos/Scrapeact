@@ -29,3 +29,18 @@
   color: #fff;
   background-color: $secondaryColor;
 }
+
+.button {
+  cursor: pointer;
+  border: none;
+
+  &.primary {
+    background-color: transparent;
+    border: 3px solid $secondaryColor;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: $secondaryColor;
+    }
+  }
+}

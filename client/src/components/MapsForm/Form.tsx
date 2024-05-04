@@ -3,6 +3,7 @@ import { Contact } from '../../types/Contact';
 import { ThreeDots } from 'react-loader-spinner';
 import styles from './form.module.scss';
 import { FormCorners } from '../FormCorners/FormCorners';
+import { Error } from '../Error/Error';
 import { URL_REGEX } from '../../../utils/regex';
 
 const DATA = [
@@ -194,7 +195,7 @@ export const MapsForm = ({ setData }: FormProps) => {
 				) : (
 					<ThreeDots visible={true} height={80} width={80} color='#ee5622' radius={9} ariaLabel='three-dots-loading' />
 				)}
-				{error && <p className={styles['form__error']}>{error}</p>}
+				{error && <Error message={error} />}
 			</form>
 		</div>
 	);

@@ -1,0 +1,46 @@
+@use '../../sass/utils' as *;
+
+.input-group {
+	position: relative;
+}
+
+.input {
+	padding: 3rem;
+	width: 250px;
+	height: 40px;
+	font-size: 1.6rem;
+  background: transparent;
+  border-radius: 4px;
+  border: 3px solid $secondaryColor;
+
+  @include small {
+    width: 400px;
+  }
+
+  @include medium {
+    width: 500px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accentColor;
+  }
+}
+
+.placeholder {
+	position: absolute;
+	left: 10px;
+  font-size: 2rem;
+  color: $secondaryColor;
+	transform: translateY(90%);
+	transition: transform 0.3s;
+	pointer-events: none;
+}
+
+.input:focus + .placeholder {
+	transform: translateY(-120%);
+}
+
+.active {
+  transform: translateY(-120%);
+}

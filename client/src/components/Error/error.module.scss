@@ -1,0 +1,10 @@
+@use '../../sass/utils' as *;
+
+.error {
+	margin-top: 1.5rem;
+	padding: 1rem 2rem;
+	font-size: 1.4rem;
+	color: #fff;
+	background: #e56464;
+	border-radius: 4px;
+}

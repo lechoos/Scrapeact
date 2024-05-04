@@ -1,0 +1,27 @@
+@use '../../sass/utils' as *;
+
+.background {
+	position: absolute;
+	top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/polka.png');
+  background-size: cover;
+  opacity: 0.14;
+  z-index: -1;
+}
+
+.header {
+  &__title {
+    @include title;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  margin-top: 6rem;
+}

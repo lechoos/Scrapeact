@@ -8,14 +8,7 @@
   margin-inline: 1rem;
 
   &__title {
-    margin-top: 7rem;
-    font-size: 4rem;
-    text-align: center;
-    letter-spacing: -1px;
-
-    @include medium {
-      font-size: 6rem;
-    }
+    @include title;
   }
 
   &__text {
