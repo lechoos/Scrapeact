@@ -1,0 +1,21 @@
+@use '../../sass/utils' as *;
+
+.header {
+  &__title {
+    @include title;
+  }
+}
+
+.login {
+  &__background {
+    @include background(0.13, '../../assets/isometric.png')
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  margin-top: 6rem;
+}

@@ -17,3 +17,15 @@
 		font-size: 6rem;
 	}
 }
+
+@mixin background($op, $src) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url($src);
+	background-size: cover;
+	opacity: $op;
+	z-index: -1;
+}
