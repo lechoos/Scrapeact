@@ -1,0 +1,54 @@
+@use '../../sass/utils' as *;
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  width: 300px;
+  background: $mainColor;
+  border-right: 3px solid $accentColor;
+  transform: translateX(-102%);
+  transition: transform 0.3s;
+  z-index: 5;
+
+  &__top {
+    margin-top: 15rem;
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+}
+
+.link {
+  font-size: 2rem;
+  color: $secondaryColor;
+  text-decoration: none;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.nick {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.email {
+  font-size: 1.5rem;
+}
+
+.active {
+  transform: translateX(0);
+}

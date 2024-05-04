@@ -8,8 +8,8 @@ import { Home } from './pages/Home/Home';
 const App = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<Main />} />
-			<Route path='/home' element={<Home />} />
+			<Route path='/' element={<Home />} />
+			<Route path='/app' element={<Main />} />
 			<Route path='/zarejestruj' element={<Register />} />
 			<Route path='/zaloguj' element={<Login />} />
 			<Route path='/profil' element={<Profile />} />

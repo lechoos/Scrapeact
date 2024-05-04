@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './main.module.scss';
 import { Contact } from '../../types/Contact';
+import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { ContactsTable } from '../../components/ContactsTable/ContactsTable';
 import { MapsForm } from '../../components/MapsForm/Form';
 import { Footer } from '../../components/Footer/Footer';
@@ -12,11 +13,12 @@ export const Main = () => {
 	const isActive = active && 'is-active';
 
 	const onClickHandler = () => {
-		setActive(prev => !prev)
-	}
+		setActive(prev => !prev);
+	};
 
 	return (
 		<>
+			<Sidebar isOpen={active} />
 			<div className='wrapper'>
 				<button onClick={onClickHandler} className={`${styles.button} hamburger hamburger--arrow ${isActive}`}>
 					<span className='hamburger-box'>
