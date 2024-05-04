@@ -19,8 +19,9 @@ html {
 
 body {
   font-family: 'Ubuntu', 'sans-serif';
-  background-color: $mainColor;
   color: $neutral;
+  background-color: $mainColor;
+  overflow-x: hidden;
 }
 
 .wrapper {
