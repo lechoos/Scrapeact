@@ -7,10 +7,22 @@ import { Footer } from '../../components/Footer/Footer';
 
 export const Main = () => {
 	const [data, setData] = useState<Contact[]>([]);
+	const [active, setActive] = useState(false);
+
+	const isActive = active && 'is-active';
+
+	const onClickHandler = () => {
+		setActive(prev => !prev)
+	}
 
 	return (
 		<>
 			<div className='wrapper'>
+				<button onClick={onClickHandler} className={`${styles.button} hamburger hamburger--arrow ${isActive}`}>
+					<span className='hamburger-box'>
+						<span className='hamburger-inner' />
+					</span>
+				</button>
 				<header className={`${styles.header} p-1`}>
 					<h1 className={styles['header__title']}>Scrapeact</h1>
 					<p className={styles['header__text']}>
