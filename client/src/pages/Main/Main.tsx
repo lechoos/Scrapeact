@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './main.module.scss';
 import { Contact } from '../../types/Contact';
 import { Sidebar } from '../../components/Sidebar/Sidebar';
@@ -15,6 +15,10 @@ export const Main = () => {
 	const onClickHandler = () => {
 		setActive(prev => !prev);
 	};
+
+	useEffect(() => {
+		console.log(data)
+	}, [data]);
 
 	return (
 		<>
@@ -33,7 +37,7 @@ export const Main = () => {
 				</header>
 				<main>
 					<MapsForm setData={setData} />
-					{data.length > 0 ? (
+					{data.length !== 0 ? (
 						<>
 							<div className='p-1'>
 								<ContactsTable

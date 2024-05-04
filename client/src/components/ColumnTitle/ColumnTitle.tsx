@@ -1,11 +1,11 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import styles from './columnTitle.module.scss';
 
 interface ColumnProps {
   id: string;
   size: number; 
   onClick?: () => void;
-  children: ReactElement;
+  children: ReactNode;
 }
 
 export const ColumnTitle = ({ id, size, onClick, children }: ColumnProps) => {

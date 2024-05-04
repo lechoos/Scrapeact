@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 
 const ScrapeController = async (req, res) => {
-	const { link } = req.body;
+	const { link } = await req.body;
+  console.log(link)
 
 	try {
 		const browser = await puppeteer.launch();
