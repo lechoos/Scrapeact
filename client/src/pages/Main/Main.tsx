@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './main.module.scss';
 import { Contact } from '../../types/Contact';
 import { Sidebar } from '../../components/Sidebar/Sidebar';
@@ -15,10 +15,6 @@ export const Main = () => {
 	const onClickHandler = () => {
 		setActive(prev => !prev);
 	};
-
-	useEffect(() => {
-		console.log(data)
-	}, [data]);
 
 	return (
 		<>

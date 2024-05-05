@@ -83,10 +83,6 @@ export const ContactsTable = ({ data }: Data) => {
 		});
 	}, [rowSelection, table]);
 
-	useEffect(() => {
-		console.log(data)
-	}, [data]);
-
 	return (
 		<div ref={containerRef} className={styles['table__container']}>
 			<div className={styles['pagination__buttons']}>
