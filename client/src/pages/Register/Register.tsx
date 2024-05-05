@@ -4,6 +4,9 @@ import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
 import { EMAIL_REGEX } from '../../../utils/regex';
+import { useState } from 'react';
+
+import Cookies from 'js-cookie';
 
 interface RegisterFormTypes {
 	nickname: string;
@@ -11,7 +14,17 @@ interface RegisterFormTypes {
 	password: string;
 }
 
+interface ServerError {
+	error: boolean;
+	message: string
+}
+
+type ServerResponse = ServerError | string;
+
 export const Register = () => {
+	const [, setLoading] = useState(false);
+	const [response, setResponse] = useState<ServerResponse>('');
+
 	const {
 		control,
 		handleSubmit,
@@ -24,8 +37,24 @@ export const Register = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<RegisterFormTypes> = data => {
-		console.log(data);
+	const onSubmit: SubmitHandler<RegisterFormTypes> = async data => {
+		setLoading(true);
+
+		await fetch('http://localhost:3000/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ nickname: data.nickname, email: data.email, password: data.password }),
+			credentials: 'include',
+		})
+			.then(res => res.json())
+			.then(response => {
+				console.log(response);
+				console.log(Cookies.get('user'))
+				setResponse(response);
+			})
+			.catch(ex => console.log(ex));
 	};
 
 	return (
@@ -40,7 +69,7 @@ export const Register = () => {
 						<Controller
 							name='nickname'
 							control={control}
-              rules={{ required: true, minLength: 3 }}
+							rules={{ required: true, minLength: 3 }}
 							render={({ field }) => <FormInput label='Nazwa użytkownika' {...field} />}
 						/>
 						{errors.nickname?.type === 'minLength' && <Error message='Nazwa użytkownika jest zbyt krótka' />}
@@ -50,7 +79,7 @@ export const Register = () => {
 						<Controller
 							name='email'
 							control={control}
-              rules={{ pattern: EMAIL_REGEX, required: true }}
+							rules={{ pattern: EMAIL_REGEX, required: true }}
 							render={({ field }) => <FormInput label='E-mail' {...field} />}
 						/>
 						{errors.email?.type === 'pattern' && <Error message='E-mail jest nieprawidłowy' />}
@@ -65,6 +94,7 @@ export const Register = () => {
 						/>
 						{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
 						{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
+						{typeof response === 'object' && <Error message={response.message} />}
 					</div>
 					<SubmitButton variant='primary'>Zarejestruj</SubmitButton>
 				</form>

@@ -7,8 +7,7 @@ mongoose
 		`mongodb+srv://dev:${process.env.DEV_PASSWORD}@cluster1.jzml6ex.mongodb.net/development?retryWrites=true&w=majority&appName=Cluster1`
 	)
 	.then(async () => {
-		const users = await Contact.find({});
-		console.log(users);
+		console.log('Połączono');
 	})
 	.catch(err => console.error('Connection error:', err));
 

@@ -6,6 +6,8 @@ import { ContactsTable } from '../../components/ContactsTable/ContactsTable';
 import { MapsForm } from '../../components/MapsForm/Form';
 import { Footer } from '../../components/Footer/Footer';
 
+import Cookies from 'js-cookie';
+
 export const Main = () => {
 	const [data, setData] = useState<Contact[]>([]);
 	const [active, setActive] = useState(false);
@@ -26,7 +28,7 @@ export const Main = () => {
 					</span>
 				</button>
 				<header className={`${styles.header} p-1`}>
-					<h1 className={styles['header__title']}>Scrapeact</h1>
+					<h1 className={styles['header__title']}>{Cookies.get('user')}</h1>
 					<p className={styles['header__text']}>
 						Wklej link do Google Maps, który chcesz zeskanować. My zajmiemy się resztą :)
 					</p>
