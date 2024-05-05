@@ -54,7 +54,6 @@ app.post('/register', (req, res) => {
 
 				console.log(req.cookies);
 
-				// Ustawianie ciasteczek przed wysłaniem odpowiedzi
 				res.json('Zapisano do bazy danych');
 			})
 			.catch(ex => {
@@ -101,6 +100,18 @@ app.get('/profile', validateToken, (req, res) => {
 });
 
 app.post('/scrape', ScrapeController);
+
+app.post('/user', async (req, res) => {
+	const { id } = req.body;
+
+	const user = await User.findOne({ _id: id });
+
+	if (user) {
+		return res.json(user);
+	} else {
+		return res.json({ error: true, message: 'Nie znaleziono użytkownika' });
+	}
+});
 
 app.listen(3000, () => {
 	console.log('Serwer słucha na porcie 3000...');
