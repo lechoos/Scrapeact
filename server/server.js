@@ -46,26 +46,19 @@ app.post('/register', (req, res) => {
 				res.cookie('access-token', accessToken, {
 					maxAge: 60 * 60 * 24 * 30 * 1000,
 					httpOnly: true,
+					domain: 'localhost', // ustaw właściwą domenę
+					path: '/', // ustaw właściwą ścieżkę
 				});
 
 				res.cookie('user', newUser._id, {
 					maxAge: 60 * 60 * 24 * 30 * 1000,
 				});
 
-				console.log(req.cookies);
-
 				res.json('Zapisano do bazy danych');
 			})
 			.catch(ex => {
 				res.status(400).json({ error: ex });
 			});
-
-		const accessToken = createTokens(newUser);
-
-		res.cookie('access-token', accessToken, {
-			maxAge: 60 * 60 * 24 * 30 * 1000,
-			httpOnly: true,
-		});
 	});
 });
 
@@ -89,10 +82,19 @@ app.post('/login', async (req, res) => {
 		res.cookie('access-token', accessToken, {
 			maxAge: 60 * 60 * 24 * 30 * 1000,
 			httpOnly: true,
+			domain: 'localhost', // ustaw właściwą domenę
+			path: '/', // ustaw właściwą ścieżkę
 		});
 
 		res.json('Zalogowano jako ' + user.nickname);
 	});
+});
+
+app.get('/logout', validateToken, (req, res) => {
+	res.clearCookie('access-token');
+	res.clearCookie('user');
+
+	return res.json('Wylogowano użytkownika');
 });
 
 app.get('/profile', validateToken, (req, res) => {
