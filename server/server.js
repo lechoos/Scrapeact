@@ -86,6 +86,10 @@ app.post('/login', async (req, res) => {
 			path: '/', // ustaw właściwą ścieżkę
 		});
 
+		res.cookie('user', user._id, {
+			maxAge: 60 * 60 * 24 * 30 * 1000,
+		});
+
 		res.json('Zalogowano jako ' + user.nickname);
 	});
 });

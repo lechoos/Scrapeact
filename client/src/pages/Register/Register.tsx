@@ -1,5 +1,6 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './register.module.scss';
+import { ServerResponse } from '../../types/Server';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
@@ -13,13 +14,6 @@ interface RegisterFormTypes {
 	email: string;
 	password: string;
 }
-
-interface ServerError {
-	error: boolean;
-	message: string
-}
-
-type ServerResponse = ServerError | string;
 
 export const Register = () => {
 	const [, setLoading] = useState(false);

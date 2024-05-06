@@ -1,9 +1,13 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './login.module.scss';
+import { ServerResponse } from '../../types/Server';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { Error } from '../../components/Error/Error';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { EMAIL_REGEX } from '../../../utils/regex';
+import { useState } from 'react';
+
+import Cookies from 'js-cookie';
 
 interface LoginTypes {
 	email: string;
@@ -11,6 +15,8 @@ interface LoginTypes {
 }
 
 export const Login = () => {
+	const [response, setResponse] = useState<ServerResponse>('');
+
 	const {
 		control,
 		handleSubmit,
@@ -22,8 +28,22 @@ export const Login = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<LoginTypes> = data => {
-		console.log(data);
+	const onSubmit: SubmitHandler<LoginTypes> = async data => {
+		await fetch('http://localhost:3000/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ email: data.email, password: data.password }),
+			credentials: 'include',
+		})
+			.then(res => res.json())
+			.then(response => {
+				console.log(response);
+				console.log(Cookies.get('user'));
+				setResponse(response);
+			})
+			.catch(ex => console.log(ex));
 	};
 
 	return (
@@ -54,6 +74,7 @@ export const Login = () => {
 						{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
 						{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
 					</div>
+					{typeof response === 'object' && <Error message={response.message} />}
 					<SubmitButton variant='primary'>Zaloguj</SubmitButton>
 				</form>
 			</main>
