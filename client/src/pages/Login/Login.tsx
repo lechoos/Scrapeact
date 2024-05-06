@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './login.module.scss';
 import { ServerResponse } from '../../types/Server';
@@ -5,7 +7,6 @@ import { FormInput } from '../../components/FormInput/FormInput';
 import { Error } from '../../components/Error/Error';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { EMAIL_REGEX } from '../../../utils/regex';
-import { useState } from 'react';
 
 import Cookies from 'js-cookie';
 
@@ -28,6 +29,8 @@ export const Login = () => {
 		},
 	});
 
+	const navigate = useNavigate();
+
 	const onSubmit: SubmitHandler<LoginTypes> = async data => {
 		await fetch('http://localhost:3000/login', {
 			method: 'POST',
@@ -42,6 +45,7 @@ export const Login = () => {
 				console.log(response);
 				console.log(Cookies.get('user'));
 				setResponse(response);
+				navigate('/app');
 			})
 			.catch(ex => console.log(ex));
 	};

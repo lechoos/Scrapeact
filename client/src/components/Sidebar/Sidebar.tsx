@@ -12,12 +12,14 @@ export const Sidebar = ({ isOpen }: SidebarTypes) => {
 
 	const onClickHandler = async () => {
 		await fetch('http://localhost:3000/logout', {
-			method: "GET",
+			method: 'GET',
 			credentials: 'include',
-		}).then(() => {
-			console.log('Wylogowano');
-			navigate('/');
-		}).catch(ex => console.log(ex));
+		})
+			.then(() => {
+				console.log('Wylogowano');
+				navigate('/');
+			})
+			.catch(ex => console.log(ex));
 	};
 
 	useEffect(() => {

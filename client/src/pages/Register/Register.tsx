@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './register.module.scss';
 import { ServerResponse } from '../../types/Server';
@@ -5,7 +7,6 @@ import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
 import { EMAIL_REGEX } from '../../../utils/regex';
-import { useState } from 'react';
 
 import Cookies from 'js-cookie';
 
@@ -31,6 +32,8 @@ export const Register = () => {
 		},
 	});
 
+	const navigate = useNavigate();
+
 	const onSubmit: SubmitHandler<RegisterFormTypes> = async data => {
 		setLoading(true);
 
@@ -45,8 +48,9 @@ export const Register = () => {
 			.then(res => res.json())
 			.then(response => {
 				console.log(response);
-				console.log(Cookies.get('user'))
+				console.log(Cookies.get('user'));
 				setResponse(response);
+				navigate('/app');
 			})
 			.catch(ex => console.log(ex));
 	};
