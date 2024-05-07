@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 const ScrapeController = async (req, res) => {
 	const { link } = await req.body;
-  console.log(link)
+	console.log(link);
 
 	try {
 		const browser = await puppeteer.launch();
@@ -20,7 +20,11 @@ const ScrapeController = async (req, res) => {
 		});
 		const sidebarSelector = '.tTVLSc';
 
-		await page.waitForSelector(sidebarSelector);
+		try {
+			await page.waitForSelector(sidebarSelector);
+		} catch (error) {
+			return res.status(404).send({ error: true, message: 'Link jest nieprawidłowy' });
+		}
 
 		async function autoScroll(page) {
 			await page.evaluate(async () => {
@@ -68,20 +72,19 @@ const ScrapeController = async (req, res) => {
 					if (!wrapper.querySelector('a[data-value="Witryna"]')) {
 						const name = wrapper.querySelector('.fontHeadlineSmall').textContent;
 						const link = wrapper.querySelector('a');
-						const spans = wrapper.querySelectorAll('span');
-						const regex = /([0-9]+( [0-9]+)+)/i;
+						// const spans = wrapper.querySelectorAll('span');
+						// const regex = /([0-9]+( [0-9]+)+)/i;
 
-						let phone;
-						spans.forEach(span => {
-							if (regex.test(span.textContent)) {
-								phone = span.textContent;
-							}
-						});
+						// let phone;
+						// spans.forEach(span => {
+						// 	if (regex.test(span.textContent)) {
+						// 		phone = span.textContent;
+						// 	}
+						// });
 
 						return {
 							name: name,
 							link: link.getAttribute('href'),
-							phone: phone,
 						};
 					}
 				})
@@ -96,9 +99,47 @@ const ScrapeController = async (req, res) => {
 		const { finalArr, len } = parents;
 		console.log(len);
 
-		const companiesData = JSON.stringify(finalArr);
+		const arrayToRespond = [];
 
-    res.send(companiesData)
+		for (const item of finalArr) {
+			console.log('Lecimy');
+			const page = await browser.newPage();
+			await page.goto(item.link);
+			// await page.waitForSelector('div.Io6YTe');
+
+			let hasWebsite = '';
+
+			try {
+				hasWebsite = await page.$eval('a[aria-label^="Witryna"]', el => el.getAttribute('href'));
+			} catch (ex) {}
+
+			if (hasWebsite !== undefined && hasWebsite !== '') {
+				console.log('yeeet');
+				const index = finalArr.indexOf(item);
+				finalArr.splice(index, 1);
+			} else {
+				let phone = '';
+				try {
+					phone = await page.$eval('button[aria-label^="Telefon:"]', el => el.textContent.trim());
+					phone = phone.replace(/^[^\d]+/, '');
+					console.log(phone);
+				} catch (error) {
+					console.log('Nie znaleziono numeru telefonu.');
+					item.phone = 'Nie znaleziono'
+				} finally {
+					item.phone = phone || 'Nie znaleziono';
+					arrayToRespond.push(item);
+					await page.close();
+				}
+			}
+		}
+
+		console.log('--------------');
+		console.log(arrayToRespond.length);
+
+		const companiesData = JSON.stringify(arrayToRespond);
+
+		res.send(companiesData);
 	} catch (ex) {
 		console.log(ex);
 	}
