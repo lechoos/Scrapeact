@@ -1,4 +1,4 @@
-interface ServerError {
+export interface ServerError {
 	error: boolean;
 	message: string
 }

@@ -3,8 +3,8 @@ import { Contact } from '../../types/Contact';
 import { ThreeDots } from 'react-loader-spinner';
 import styles from './form.module.scss';
 import { FormCorners } from '../FormCorners/FormCorners';
-import { Error } from '../Error/Error';
-import { URL_REGEX } from '../../../utils/regex';
+import { Error as ErrorComponent } from '../Error/Error';
+// import { URL_REGEX } from '../../../utils/regex';
 
 interface FormProps {
 	setData: Dispatch<SetStateAction<Contact[]>>;
@@ -27,29 +27,41 @@ export const MapsForm = ({ setData }: FormProps) => {
 			return null;
 		}
 
-		const isValid = URL_REGEX.test(link);
+		console.log(link);
 
-		if (!isValid) {
-			const message = index === 5 ? 'Sprawdzasz ile razy możesz kliknąć przycisk? ;)' : 'Adres jest nieprawidłowy :(';
-			setError(message);
-			return null;
-		}
+		// const isValid = URL_REGEX.test(link);
+
+		// if (!isValid) {
+		// 	const message = index === 5 ? 'Sprawdzasz ile razy możesz kliknąć przycisk? ;)' : 'Adres jest nieprawidłowy :(';
+		// 	setError(message);
+		// 	return null;
+		// }
 
 		setError('');
 		setLoading(true);
 
-		// const resData = DATA.map(contact => contact)
+		try {
+			const response = await fetch('http://localhost:3000/scrape', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ link: link }),
+			})
 
-		const response = await fetch('http://localhost:3000/scrape', {
-			method: 'POST',
-			headers: {
-				"Content-Type": 'application/json'
-			},
-			body: JSON.stringify({ link: link }), // Include link in the body
-		});
+			if (!response.ok) {
+				throw new Error('Link jest nieprawidłowy');
+			}
 
-		const resData: Contact[] = await response.json();
-		setData(resData);
+			const resData: Contact[] = await response.json();
+			await console.log(resData);
+
+			setData(resData);
+			setError('');
+		} catch (ex) {
+			setError('Link jest nieprawidłowy!');
+		}
+
 		setLoading(false);
 	};
 
@@ -67,7 +79,7 @@ export const MapsForm = ({ setData }: FormProps) => {
 				) : (
 					<ThreeDots visible={true} height={80} width={80} color='#ee5622' radius={9} ariaLabel='three-dots-loading' />
 				)}
-				{error && <Error message={error} />}
+				{error && <ErrorComponent message={error} />}
 			</form>
 		</div>
 	);

@@ -25,18 +25,18 @@ export const Main = () => {
 	useEffect(() => {
 		const fetchUser = async () => {
 			await fetch('http://localhost:3000/user', {
-				method: 'POST', 
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ id: id })
+				body: JSON.stringify({ id: id }),
 			})
 				.then(res => res.json())
-				.then(response => setUser(response))
-		}
+				.then(response => setUser(response));
+		};
 
 		fetchUser();
-	}, [id])
+	}, [id]);
 
 	return (
 		<>
@@ -55,20 +55,17 @@ export const Main = () => {
 				</header>
 				<main>
 					<MapsForm setData={setData} />
-					{data.length !== 0 ? (
-						<>
-							<div className='p-1'>
-								<ContactsTable
-									data={data.map(contact => ({
-										...contact,
-										uuid: Math.random().toString(36).substring(2, 15),
-									}))}
-								/>
-							</div>
-							<p className={styles.warning}>Otwórz aplikację na komputerze, by uzyskać dostęp do tabeli.</p>
-						</>
+					{Array.isArray(data) && data.length > 0 ? (
+						<div className='p-1'>
+							<ContactsTable
+								data={data?.map(contact => ({
+									...contact,
+									uuid: Math.random().toString(36).substring(2, 15),
+								}))}
+							/>
+						</div>
 					) : (
-						''
+						null
 					)}
 				</main>
 				<Footer />

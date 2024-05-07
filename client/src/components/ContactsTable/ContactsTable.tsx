@@ -121,10 +121,6 @@ export const ContactsTable = ({ data }: Data) => {
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</React.Fragment>
 								)
-
-								// <td className='table__cell' width={cell.column.getSize()} key={cell.id}>
-
-								// </td>
 							)}
 						</tr>
 					))}
