@@ -1,0 +1,62 @@
+@use '../../sass/utils' as *;
+
+.background {
+	position: absolute;
+	top: 0;
+  right: 0;
+  bottom: -25%;
+  left: 0;
+  background-image: url('../../assets/cross.png');
+  background-size: cover;
+  opacity: 0.14;
+  z-index: -1;
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding-inline: 2rem;
+  
+  @include small {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  }
+}
+
+.subtitle {
+  margin-top: 4rem;
+  font-size: 3rem;
+}
+
+.edit {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4rem;
+  margin-block: 6rem;
+}
+
+.delete {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem; 
+  margin-bottom: 4rem;
+
+  @include large {
+    gap: 6rem;
+  }
+}
+
+@media (max-width: 1076px) {
+  .form,
+  .edit, 
+  .delete {
+    align-items: center;
+  }
+}

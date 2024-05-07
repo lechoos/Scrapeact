@@ -4,6 +4,7 @@ import { Register } from './pages/Register/Register';
 import { Login } from './pages/Login/Login';
 import { Profile } from './pages/Profile/Profile';
 import { Home } from './pages/Home/Home';
+import { Settings } from './pages/Settings/Settings';
 
 const App = () => {
 	return (
@@ -13,6 +14,7 @@ const App = () => {
 			<Route path='/zarejestruj' element={<Register />} />
 			<Route path='/zaloguj' element={<Login />} />
 			<Route path='/profil' element={<Profile />} />
+			<Route path='/ustawienia' element={<Settings />} />
 		</Routes>
 	);
 };

@@ -30,6 +30,18 @@
   background-color: $secondaryColor;
 }
 
+.tertiary {
+  @include link($accentColor);
+
+  color: #fff;
+  background-color: $accentColor;
+  
+  &:hover {
+    background-color: transparent;
+    color: $accentColor;
+  }
+}
+
 .button {
   cursor: pointer;
   border: none;
@@ -38,9 +50,13 @@
     background-color: transparent;
     border: 3px solid $secondaryColor;
     transition: background-color 0.3s, color 0.3s;
-
+    
     &:hover {
       background-color: $secondaryColor;
     }
+  }
+  
+  &.tertiary {
+    border: 3px solid $accentColor;
   }
 }

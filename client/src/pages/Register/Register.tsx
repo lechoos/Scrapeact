@@ -67,7 +67,7 @@ export const Register = () => {
 						<Controller
 							name='nickname'
 							control={control}
-							rules={{ required: true, minLength: 3 , pattern: USERNAME_REGEX}}
+							rules={{ required: true, minLength: 4 , pattern: USERNAME_REGEX}}
 							render={({ field }) => <FormInput label='Nazwa użytkownika' {...field} />}
 						/>
 						{errors.nickname?.type === 'pattern' && <Error message='Nazwa użytkownika może składać się tylko z liter i cyfr' />}
