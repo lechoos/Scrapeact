@@ -1,5 +1,12 @@
 @use '../../sass/utils' as *;
 
+.lottie {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .header {
   margin-block: 4rem;
   padding-inline: 2rem;

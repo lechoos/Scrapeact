@@ -2,40 +2,14 @@ import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect } from 'reac
 import styles from './profile.module.scss';
 import { User } from '../../types/User';
 import Cookies from 'js-cookie';
-
-type Data = {
-	name: string;
-	phone: string;
-	link: string;
-};
+import { Contact } from '../../types/Contact';
+import { LottieAnimation } from '../../components/LottieAnimation/LottieAnimation';
+import animationData from '../../lotties/loading.json';
 
 type Company = {
-	company: Data;
-	setGlobalData: Dispatch<SetStateAction<{ name: string; phone: string; link: string }[]>>;
+	company: Contact;
+	setGlobalData: Dispatch<SetStateAction<Contact[]>>;
 };
-
-const DATA = [
-	{
-		name: 'Salon ABC',
-		phone: '723 741 772',
-		link: 'https://google.com',
-	},
-	{
-		name: 'Mix Garage',
-		phone: '605029321',
-		link: 'https://google.com',
-	},
-	{
-		name: 'Sklep z kurwami',
-		phone: '723 740 700',
-		link: 'https://google.com',
-	},
-	{
-		name: 'SysCompany',
-		phone: '989896123',
-		link: 'https://google.com',
-	},
-];
 
 const Company = ({ company, setGlobalData }: Company) => {
 	const [data, setData] = useState(company);
@@ -63,13 +37,16 @@ const Company = ({ company, setGlobalData }: Company) => {
 };
 
 export const Profile = () => {
-	const [data, setData] = useState(DATA);
+	const [data, setData] = useState<Contact[]>([{ name: '', link: '', phone: '', ownerId: '' }]);
 	const [user, setUser] = useState<User>();
+	const [loading, setLoading] = useState(false);
 
 	const id = Cookies.get('user')?.split('"')[1];
 
 	useEffect(() => {
 		const fetchUser = async () => {
+			setLoading(true);
+
 			await fetch('http://localhost:3000/user', {
 				method: 'POST',
 				headers: {
@@ -79,27 +56,55 @@ export const Profile = () => {
 			})
 				.then(res => res.json())
 				.then(response => setUser(response));
+
+			setTimeout(() => {
+				setLoading(false);
+			}, 3000);
 		};
 
 		fetchUser();
 	}, [id]);
 
+	useEffect(() => {
+		const fetchContacts = async () => {
+			setLoading(true);
+
+			await fetch(`http://localhost:3000/contacts/${id}`)
+				.then(res => res.json())
+				.then(resJson => setData(resJson))
+				.catch(ex => console.log(ex));
+
+			setTimeout(() => {
+				setLoading(false);
+			}, 3000);
+		};
+
+		fetchContacts();
+	}, [id]);
+
 	return (
 		<div className='wrapper'>
-			<header className={styles.header}>
-				<div className={styles.info}>
-					<h2 className={styles.title}>{user?.nickname}</h2>
-					<div className={styles.divider} />
-					<p className={styles.email}>{user?.email}</p>
-				</div>
-				<p className={styles.saved}>Zapisanych kontaktów: {data.length}</p>
-			</header>
-			<main className={styles.companies}>
-				{data.map(company => (
-					<Company setGlobalData={setData} key={company.name + company.phone} company={company} />
-				))}
-			</main>
-			<p className={styles.alert}>Wyświetl aplikację na komputerze, by zobaczyć tabelę z zapisanymi kontaktami</p>
+			{loading ? (
+				<LottieAnimation classes={styles.lottie} animationData={animationData} />
+			) : (
+				<>
+					<header className={styles.header}>
+						<div className={styles.info}>
+							<h2 className={styles.title}>{user?.nickname}</h2>
+							<div className={styles.divider} />
+							<p className={styles.email}>{user?.email}</p>
+						</div>
+						<p className={styles.saved}>Zapisanych kontaktów: {data?.length}</p>
+					</header>
+					<main className={styles.companies}>
+						{data &&
+							(data as Contact[]).map(company => (
+								<Company setGlobalData={setData} key={company.name + company.phone} company={company} />
+							))}
+					</main>
+					<p className={styles.alert}>Wyświetl aplikację na komputerze, by zobaczyć tabelę z zapisanymi kontaktami</p>
+				</>
+			)}
 		</div>
 	);
 };

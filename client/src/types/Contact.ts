@@ -3,4 +3,5 @@ export interface Contact {
 	link: string;
 	phone: string;
 	ownerId?: string;
+	uuid?: string;
 }

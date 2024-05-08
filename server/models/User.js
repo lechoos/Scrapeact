@@ -12,6 +12,10 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  ownerID: {
+    type: String,
+    required: true,
   }
 })
 
