@@ -64,9 +64,7 @@ export const Main = () => {
 								}))}
 							/>
 						</div>
-					) : (
-						null
-					)}
+					) : null}
 				</main>
 				<Footer />
 			</div>

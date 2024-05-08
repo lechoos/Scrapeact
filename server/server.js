@@ -122,10 +122,10 @@ app.post('/user', async (req, res) => {
 });
 
 app.post('/edit-user', async (req, res) => {
-	const { id, nickname, email, password } = await req.body;
+	const { _id, nickname, email, password } = await req.body;
 
 	try {
-		const user = await User.findOne({ _id: id });
+		const user = await User.findOne({ _id: _id });
 
 		if (!user) {
 			return res.status(404).json({ error: true, message: 'Użytkownik nie istnieje!' });
@@ -136,7 +136,6 @@ app.post('/edit-user', async (req, res) => {
 		} else {
 			user.nickname = nickname;
 		}
-
 
 		if (email !== user.email) {
 			if (EMAIL_REGEX.test(email)) {
@@ -155,7 +154,7 @@ app.post('/edit-user', async (req, res) => {
 		if (password.length !== 0 && password.length >= 6) {
 			const hash = await bcrypt.hash(password, 10);
 			user.password = hash;
-		} else if (password.length === 0){
+		} else if (password.length === 0) {
 			user.password = user.password;
 		} else {
 			return res.status(401).json({ error: true, message: 'Hasło musi mieć co najmniej 6 znaków!' });
@@ -163,7 +162,7 @@ app.post('/edit-user', async (req, res) => {
 
 		await user.save();
 
-		return res.status(202).send('Dane użytkownika zostały zaktualizowane');
+		return res.status(202).json('Dane użytkownika zostały zaktualizowane');
 	} catch (ex) {
 		return res.status(500).json({ error: true, message: 'Wystąpił błąd podczas edycji konta użytkownika' });
 	}

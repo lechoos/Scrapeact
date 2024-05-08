@@ -47,7 +47,7 @@ export const MapsForm = ({ setData }: FormProps) => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ link: link }),
-			})
+			});
 
 			if (!response.ok) {
 				throw new Error('Link jest nieprawidłowy');

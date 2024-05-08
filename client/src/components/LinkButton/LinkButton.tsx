@@ -13,8 +13,8 @@ interface ButtonProps {
 }
 
 interface NormalButton {
-  onClick?: () => void;
-  children: ReactNode;
+	onClick?: () => void;
+	children: ReactNode;
 }
 
 export const LinkButton = ({ href, variant, children }: LinkProps) => {
@@ -38,7 +38,7 @@ export const SubmitButton = ({ variant, children }: ButtonProps) => {
 };
 
 export const Button = ({ children, onClick }: NormalButton) => {
-  return (
+	return (
 		<button onClick={onClick} className={`${styles.tertiary} ${styles.button}`}>
 			{children}
 		</button>

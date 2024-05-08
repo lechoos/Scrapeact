@@ -8,26 +8,26 @@ import { PhoneCell } from '../PhoneCell/PhoneCell';
 import { SaveCell } from '../SaveCell/SaveCell';
 
 interface DataRow {
-  uuid: string;
-  name: string;
-  link: string;
-  phone: string; 
+	uuid: string;
+	name: string;
+	link: string;
+	phone: string;
 }
 
 interface Data {
-  data: DataRow[];
+	data: DataRow[];
 }
 
 interface Columns {
-  accessorKey: string;
-  header: string;
-  size: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cell: (props: any) => void
+	accessorKey: string;
+	header: string;
+	size: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	cell: (props: any) => void;
 }
 
 export const ContactsTable = ({ data }: Data) => {
-	const [tableWidth, ] = useState(768);
+	const [tableWidth] = useState(768);
 	const [rowSelection, setRowSelection] = useState({});
 	const containerRef = useRef(null);
 
@@ -86,10 +86,18 @@ export const ContactsTable = ({ data }: Data) => {
 	return (
 		<div ref={containerRef} className={styles['table__container']}>
 			<div className={styles['pagination__buttons']}>
-				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(0)}>Pierwsza strona</button>
-				<button className={styles['pagination__button']} onClick={() => table.previousPage()}>Poprzednia strona</button>
-				<button className={styles['pagination__button']} onClick={() => table.nextPage()}>Następna strona</button>
-				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(table.getPageCount() - 1)}>Ostatnia strona</button>
+				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(0)}>
+					Pierwsza strona
+				</button>
+				<button className={styles['pagination__button']} onClick={() => table.previousPage()}>
+					Poprzednia strona
+				</button>
+				<button className={styles['pagination__button']} onClick={() => table.nextPage()}>
+					Następna strona
+				</button>
+				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+					Ostatnia strona
+				</button>
 			</div>
 			<table className={styles.table}>
 				<thead>
@@ -115,19 +123,17 @@ export const ContactsTable = ({ data }: Data) => {
 				<tbody>
 					{table.getRowModel().rows.map(row => (
 						<tr key={row.id}>
-							{row.getVisibleCells().map(
-								cell => (
-									<React.Fragment key={cell.id}>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</React.Fragment>
-								)
-							)}
+							{row.getVisibleCells().map(cell => (
+								<React.Fragment key={cell.id}>
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
+								</React.Fragment>
+							))}
 						</tr>
 					))}
 				</tbody>
 			</table>
 			<div className={styles['save__container']}>
-			<button className={styles['save__button']}>Zapisz</button>
+				<button className={styles['save__button']}>Zapisz</button>
 			</div>
 		</div>
 	);

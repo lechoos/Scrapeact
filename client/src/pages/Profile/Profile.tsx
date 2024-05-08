@@ -64,11 +64,11 @@ const Company = ({ company, setGlobalData }: Company) => {
 
 export const Profile = () => {
 	const [data, setData] = useState(DATA);
-  const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<User>();
 
-  const id = Cookies.get('user')?.split('"')[1];
+	const id = Cookies.get('user')?.split('"')[1];
 
-  useEffect(() => {
+	useEffect(() => {
 		const fetchUser = async () => {
 			await fetch('http://localhost:3000/user', {
 				method: 'POST',
@@ -89,7 +89,7 @@ export const Profile = () => {
 			<header className={styles.header}>
 				<div className={styles.info}>
 					<h2 className={styles.title}>{user?.nickname}</h2>
-          <div className={styles.divider} />
+					<div className={styles.divider} />
 					<p className={styles.email}>{user?.email}</p>
 				</div>
 				<p className={styles.saved}>Zapisanych kontaktów: {data.length}</p>
@@ -99,7 +99,7 @@ export const Profile = () => {
 					<Company setGlobalData={setData} key={company.name + company.phone} company={company} />
 				))}
 			</main>
-      <p className={styles.alert}>Wyświetl aplikację na komputerze, by zobaczyć tabelę z zapisanymi kontaktami</p>
+			<p className={styles.alert}>Wyświetl aplikację na komputerze, by zobaczyć tabelę z zapisanymi kontaktami</p>
 		</div>
 	);
 };

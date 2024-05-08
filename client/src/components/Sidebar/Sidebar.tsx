@@ -6,7 +6,7 @@ import { User } from '../../types/User';
 
 interface SidebarTypes {
 	isOpen: boolean;
-	user: User
+	user: User;
 }
 
 export const Sidebar = ({ isOpen, user }: SidebarTypes) => {

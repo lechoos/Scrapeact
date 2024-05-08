@@ -6,7 +6,7 @@ import { User } from '../../types/User';
 import Cookies from 'js-cookie';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton, Button } from '../../components/LinkButton/LinkButton';
-import { Error } from '../../components/Error/Error';
+import { Error, Success } from '../../components/Error/Error';
 import { EMAIL_REGEX, USERNAME_REGEX } from '../../../utils/regex';
 
 interface EditFormTypes {
@@ -17,19 +17,37 @@ interface EditFormTypes {
 
 export const Settings = () => {
 	const [user, setUser] = useState<User>();
-	const [response, ] = useState<ServerResponse>('');
+	const [response, setResponse] = useState<ServerResponse>('');
 
-	const id = Cookies.get('user')?.split('"')[1];
+	const id = Cookies.get('user')?.split('"')[1] as string;
 
 	const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<EditFormTypes>();
+		control,
+		handleSubmit,
+		formState: { errors },
+		reset,
+		setValue,
+	} = useForm<EditFormTypes>();
 
-	const onSubmit: SubmitHandler<EditFormTypes> = data => {
-		console.log(data);
+	const onSubmit: SubmitHandler<EditFormTypes> = async data => {
+		const userToUpdate: User = {
+			_id: id,
+			nickname: data.nickname,
+			email: data.email,
+			password: data.password,
+		};
+
+		await fetch('http://localhost:3000/edit-user', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(userToUpdate),
+		})
+			.then(res => res.json())
+			.then(response => {
+				setResponse(response);
+			});
 	};
 
 	useEffect(() => {
@@ -43,23 +61,28 @@ export const Settings = () => {
 			})
 				.then(res => res.json())
 				.then(response => {
-          setUser(response);
+					setUser(response);
+
+					setValue('nickname', user?.nickname);
+					setValue('email', user?.email);
+					setValue('password', user?.password);
 				})
 				.catch(ex => console.log(ex));
 		};
 
 		fetchUser();
-	}, [id]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [id, setValue]);
 
-  useEffect(() => {
-    if (user) {
-      reset({
-        nickname: user.nickname,
-        email: user.email,
-        password: user.password,
-      });
-    }
-  }, [user, reset]);
+	useEffect(() => {
+		if (user) {
+			reset({
+				nickname: user.nickname,
+				email: user.email,
+				password: user.password,
+			});
+		}
+	}, [user, reset]);
 
 	return (
 		<>
@@ -74,7 +97,7 @@ export const Settings = () => {
 									name='nickname'
 									control={control}
 									rules={{ required: true, minLength: 3, pattern: USERNAME_REGEX }}
-									render={({ field }) => <FormInput label='Nazwa użytkownika' {...field} value={user?.nickname} />}
+									render={({ field }) => <FormInput label='Nazwa użytkownika' {...field} />}
 								/>
 								{errors.nickname?.type === 'pattern' && (
 									<Error message='Nazwa użytkownika może składać się tylko z liter i cyfr' />
@@ -87,7 +110,7 @@ export const Settings = () => {
 									name='email'
 									control={control}
 									rules={{ pattern: EMAIL_REGEX, required: true }}
-									render={({ field }) => <FormInput label='E-mail' {...field} value={user?.email} />}
+									render={({ field }) => <FormInput label='E-mail' {...field} />}
 								/>
 								{errors.email?.type === 'pattern' && <Error message='E-mail jest nieprawidłowy' />}
 								{errors.email?.type === 'required' && <Error message='E-mail jest wymagany' />}
@@ -97,18 +120,19 @@ export const Settings = () => {
 									name='password'
 									control={control}
 									rules={{ minLength: 6, required: true }}
-									render={({ field }) => <FormInput label='Hasło' {...field} value="" />}
+									render={({ field }) => <FormInput label='Hasło' {...field} value='' />}
 								/>
 								{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
 								{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
 								{typeof response === 'object' && <Error message={response.message} />}
+								{typeof response === 'string' && <Success message={response} />}
 							</div>
 							<SubmitButton variant='secondary'>Zapisz</SubmitButton>
 						</form>
 					</div>
 					<div className={styles.delete}>
 						<h2 className={styles.subtitle}>Usuń konto</h2>
-            <Button>Usuń konto</Button>
+						<Button>Usuń konto</Button>
 					</div>
 				</div>
 			</div>

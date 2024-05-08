@@ -1,6 +1,6 @@
 export interface ServerError {
 	error: boolean;
-	message: string
+	message: string;
 }
 
 export type ServerResponse = ServerError | string;

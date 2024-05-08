@@ -1,8 +1,8 @@
 import styles from '../MapsForm/form.module.scss';
 
 interface CornerProps {
-  index: string;
-  rotate: number;
+	index: string;
+	rotate: number;
 }
 
 export const Corner: React.FC<CornerProps> = ({ index, rotate }) => {

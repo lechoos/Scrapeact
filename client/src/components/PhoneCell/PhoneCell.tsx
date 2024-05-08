@@ -1,8 +1,8 @@
 import styles from './phoneCell.module.scss';
 
 interface PhoneProps {
-  size: number;
-  children: string;
+	size: number;
+	children: string;
 }
 
 export const PhoneCell = ({ size, children }: PhoneProps) => {
