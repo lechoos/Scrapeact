@@ -6,15 +6,21 @@ import { Profile } from './pages/Profile/Profile';
 import { Home } from './pages/Home/Home';
 import { Settings } from './pages/Settings/Settings';
 
+import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
+
 const App = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<Home />} />
-			<Route path='/app' element={<Main />} />
-			<Route path='/zarejestruj' element={<Register />} />
-			<Route path='/zaloguj' element={<Login />} />
-			<Route path='/profil' element={<Profile />} />
-			<Route path='/ustawienia' element={<Settings />} />
+			<Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
+			<Route path='/zaloguj' element={<PublicRoute><Login /></PublicRoute>} />
+			<Route path='/zarejestruj' element={<PublicRoute><Register /></PublicRoute>} />
+			<Route path='/app' element={<PrivateRoute><Main /></PrivateRoute>} />
+			<Route path='/profil' element={<PrivateRoute><Profile /></PrivateRoute>} />
+			<Route path='/ustawienia' element={<PrivateRoute><Settings /></PrivateRoute>} />
+			{/* <PrivateRoute path='/app' element={<Main />} />
+			<PrivateRoute path='/profil' element={<Profile />} />
+			<PrivateRoute path='/ustawienia' element={<Settings />} /> */}
 		</Routes>
 	);
 };
