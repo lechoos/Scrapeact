@@ -17,7 +17,7 @@ interface EditFormTypes {
 
 export const Settings = () => {
 	const [user, setUser] = useState<User>();
-	const [response, setResponse] = useState<ServerResponse>('');
+	const [response, setResponse] = useState<ServerResponse>();
 
 	const id = Cookies.get('user')?.split('"')[1] as string;
 
