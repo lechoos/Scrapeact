@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import styles from './sidebar.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../LinkButton/LinkButton';
 
 interface SidebarTypes {
 	isOpen: boolean;
@@ -39,7 +40,7 @@ export const Sidebar = ({ isOpen }: SidebarTypes) => {
 			<div className={styles['sidebar__top']}>
 				<p className={styles.nick}>Lechoś0810</p>
 				<p className={styles.email}>ptrlechowicz@gmail.com</p>
-				<button onClick={onClickHandler}>Wyloguj</button>
+				<Button onClick={onClickHandler}>Wyloguj</Button>
 			</div>
 			<div className={styles['sidebar__bottom']}>
 				<a className={styles.link} href='/profil'>
