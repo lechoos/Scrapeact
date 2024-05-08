@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const ScrapingRoutes = require('./routes/ScrapingRoutes');
 const UserRoutes = require('./routes/UserRoutes');
+const ContactRoutes = require('./routes/ContactRoutes');
 
 const app = express();
 
@@ -23,6 +24,8 @@ require('./db/db');
 app.use(ScrapingRoutes);
 
 app.use(UserRoutes);
+
+app.use(ContactRoutes);
 
 app.listen(3000, () => {
 	console.log('Serwer słucha na porcie 3000...');
