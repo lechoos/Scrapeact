@@ -13,6 +13,7 @@ import { Cell } from '../Cell/Cell';
 import { LinkCell } from '../LinkCell/LinkCell';
 import { PhoneCell } from '../PhoneCell/PhoneCell';
 import { SaveCell } from '../SaveCell/SaveCell';
+import { Error } from '../Error/Error';
 
 import Cookies from 'js-cookie';
 
@@ -43,6 +44,7 @@ export const ContactsTable = ({ data }: Data) => {
 	const [tableWidth] = useState(768);
 	const [rowSelection, setRowSelection] = useState({});
 	const [response, setResponse] = useState('');
+	const [errorMsg, setErrorMsg] = useState('');
 
 	const [rowsToSave, setRowsToSave] = useState<OwnedContact[]>([]);
 	const containerRef = useRef(null);
@@ -120,7 +122,7 @@ export const ContactsTable = ({ data }: Data) => {
 					}
 				});
 		} else {
-			return;
+			setErrorMsg('Musisz zaznaczyć kontakty, które chcesz zapisać');
 		}
 	};
 
@@ -187,6 +189,7 @@ export const ContactsTable = ({ data }: Data) => {
 			<div className={styles['save__container']}>
 				<button onClick={onSave} className={styles['save__button']}>Zapisz</button>
 			</div>
+			{errorMsg.length !== 0 && <Error message={errorMsg} />}
 		</div>
 	);
 };
