@@ -168,6 +168,21 @@ app.post('/edit-user', async (req, res) => {
 	}
 });
 
+app.delete('/delete-user', async (req, res) => {
+	const { _id } = await req.body;
+
+	try {
+		await User.findOneAndDelete({ _id: _id });
+
+		res.clearCookie('access-token');
+		res.clearCookie('user');
+
+		res.status(200).json('Usunięto');
+	} catch (error) {
+		res.status(400).json({ error: true, message: 'Wystąpił błąd przy usuwaniu użytkownika' });
+	}
+});
+
 app.listen(3000, () => {
 	console.log('Serwer słucha na porcie 3000...');
 });

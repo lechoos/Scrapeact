@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './settings.module.scss';
 import { ServerResponse } from '../../types/Server';
@@ -18,6 +19,8 @@ interface EditFormTypes {
 export const Settings = () => {
 	const [user, setUser] = useState<User>();
 	const [response, setResponse] = useState<ServerResponse>();
+
+	const navigate = useNavigate();
 
 	const id = Cookies.get('user')?.split('"')[1] as string;
 
@@ -47,6 +50,26 @@ export const Settings = () => {
 			.then(res => res.json())
 			.then(response => {
 				setResponse(response);
+			});
+	};
+
+	const onDelete = async () => {
+		await fetch('http://localhost:3000/delete-user', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ _id: id }),
+		})
+			.then(res => res.json())
+			.then(response => {
+				if (typeof response === 'string') {
+					Cookies.remove('user');
+					Cookies.remove('access-token');
+					navigate('/');
+				} else {
+					console.log('Wystąpił błąd');
+				}
 			});
 	};
 
@@ -132,7 +155,7 @@ export const Settings = () => {
 					</div>
 					<div className={styles.delete}>
 						<h2 className={styles.subtitle}>Usuń konto</h2>
-						<Button>Usuń konto</Button>
+						<Button onClick={onDelete}>Usuń konto</Button>
 					</div>
 				</div>
 			</div>
