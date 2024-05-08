@@ -129,7 +129,9 @@ const ScrapeController = async (req, res) => {
 				} finally {
 					item.phone = phone || 'Nie znaleziono';
 					arrayToRespond.push(item);
-					await page.close();
+					setTimeout(async () => {
+						await page.close()
+					}, 100);
 				}
 			}
 		}

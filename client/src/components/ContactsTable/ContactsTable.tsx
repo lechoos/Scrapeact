@@ -113,7 +113,7 @@ export const ContactsTable = ({ data }: Data) => {
 			})
 				.then(res => res.json())
 				.then(async resJson => {
-					await setResponse(resJson);
+					setResponse(resJson);
 
 					const status = response === 'Kontakty zostały zapisane' ? null : 'error';
 
