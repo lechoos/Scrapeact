@@ -1,5 +1,12 @@
 import React, { useRef, useEffect, useMemo, useState } from 'react';
-import { flexRender, getCoreRowModel, useReactTable, getPaginationRowModel } from '@tanstack/react-table';
+import {
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+	getPaginationRowModel,
+	Updater,
+	RowSelectionState,
+} from '@tanstack/react-table';
 import styles from './contactTable.module.scss';
 import { ColumnTitle } from '../ColumnTitle/ColumnTitle';
 import { Cell } from '../Cell/Cell';
@@ -7,11 +14,17 @@ import { LinkCell } from '../LinkCell/LinkCell';
 import { PhoneCell } from '../PhoneCell/PhoneCell';
 import { SaveCell } from '../SaveCell/SaveCell';
 
+import Cookies from 'js-cookie';
+
 interface DataRow {
 	uuid: string;
 	name: string;
 	link: string;
-	phone: string;
+	phone?: string;
+}
+
+interface OwnedContact extends DataRow {
+	ownerID?: string;
 }
 
 interface Data {
@@ -29,7 +42,17 @@ interface Columns {
 export const ContactsTable = ({ data }: Data) => {
 	const [tableWidth] = useState(768);
 	const [rowSelection, setRowSelection] = useState({});
+	const [response, setResponse] = useState('');
+
+	const [rowsToSave, setRowsToSave] = useState<OwnedContact[]>([]);
 	const containerRef = useRef(null);
+
+	const id = Cookies.get('user')?.split('"')[1];
+
+	const handleRowSelectionChange = (newSelection: Updater<RowSelectionState>) => {
+		// Aktualizuj zaznaczenia w tabeli
+		setRowSelection(newSelection);
+	};
 
 	const columns: Columns[] = useMemo(
 		() => [
@@ -71,17 +94,46 @@ export const ContactsTable = ({ data }: Data) => {
 		columnResizeMode: 'onChange',
 		enableRowSelection: true,
 		getRowId: row => row.uuid,
-		onRowSelectionChange: setRowSelection,
+		onRowSelectionChange: handleRowSelectionChange,
 		state: {
 			rowSelection: rowSelection,
 		},
 	});
 
+	const onSave = async () => {
+		if (rowsToSave.length > 0) {
+			await fetch('http://localhost:3000/save', {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(rowsToSave)
+			})
+				.then(res => res.json())
+				.then(async resJson => {
+					await setResponse(resJson);
+
+					const status = response === 'Kontakty zostały zapisane' ? null : 'error';
+
+					if (status === 'error') {
+						console.log(response);
+					}
+				});
+		} else {
+			return;
+		}
+	};
+
 	useEffect(() => {
-		table.getSelectedRowModel().flatRows.forEach(row => {
-			console.log(row.original);
-		});
-	}, [rowSelection, table]);
+		// Pobierz zaznaczone rzędy z tabeli
+		const selectedRows = table.getSelectedRowModel().flatRows;
+
+		// Zaktualizuj stan rowsToSave na podstawie zaznaczonych rzędów
+		const updatedRowsToSave = selectedRows.map(row => ({ ...row.original, ownerID: id }));
+		setRowsToSave(updatedRowsToSave);
+
+		console.log(updatedRowsToSave);
+	}, [rowSelection, id, table]);
 
 	return (
 		<div ref={containerRef} className={styles['table__container']}>
@@ -133,7 +185,7 @@ export const ContactsTable = ({ data }: Data) => {
 				</tbody>
 			</table>
 			<div className={styles['save__container']}>
-				<button className={styles['save__button']}>Zapisz</button>
+				<button onClick={onSave} className={styles['save__button']}>Zapisz</button>
 			</div>
 		</div>
 	);

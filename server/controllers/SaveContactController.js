@@ -13,7 +13,15 @@ const SaveContactController = async (req, res) => {
 				ownerID: contact.ownerID,
 			});
 
-			await newContact.save();
+			const doesExist = await Contact.find({
+				name: contact.name,
+				link: contact.link,
+				ownerID: contact.ownerID,
+			})
+
+			if (doesExist.length === 0) {
+				await newContact.save();
+			}
 		}
 
     res.status(200).json('Kontakty zostały zapisane');
