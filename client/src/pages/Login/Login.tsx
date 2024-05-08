@@ -45,7 +45,10 @@ export const Login = () => {
 				console.log(response);
 				console.log(Cookies.get('user'));
 				setResponse(response);
-				navigate('/app');
+
+				if (typeof response === 'string') {
+					navigate('/app');
+				}
 			})
 			.catch(ex => console.log(ex));
 	};

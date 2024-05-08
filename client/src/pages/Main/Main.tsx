@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 
 export const Main = () => {
 	const [data, setData] = useState<Contact[]>([]);
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<User>();
 	const [active, setActive] = useState(false);
 
 	const isActive = active && 'is-active';
@@ -40,7 +40,7 @@ export const Main = () => {
 
 	return (
 		<>
-			<Sidebar isOpen={active} />
+			<Sidebar user={user as User} isOpen={active} />
 			<div className='wrapper'>
 				<button onClick={onClickHandler} className={`${styles.button} hamburger hamburger--arrow ${isActive}`}>
 					<span className='hamburger-box'>

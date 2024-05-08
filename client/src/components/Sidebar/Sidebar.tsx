@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import styles from './sidebar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../LinkButton/LinkButton';
+import { User } from '../../types/User';
 
 interface SidebarTypes {
 	isOpen: boolean;
+	user: User
 }
 
-export const Sidebar = ({ isOpen }: SidebarTypes) => {
+export const Sidebar = ({ isOpen, user }: SidebarTypes) => {
 	const navigate = useNavigate();
 	const isSidebarOpen = isOpen && styles.active;
 
@@ -38,8 +40,8 @@ export const Sidebar = ({ isOpen }: SidebarTypes) => {
 	return (
 		<div className={`${styles.sidebar} ${isSidebarOpen}`}>
 			<div className={styles['sidebar__top']}>
-				<p className={styles.nick}>Lechoś0810</p>
-				<p className={styles.email}>ptrlechowicz@gmail.com</p>
+				<p className={styles.nick}>{user?.nickname}</p>
+				<p className={styles.email}>{user?.email}</p>
 				<Button onClick={onClickHandler}>Wyloguj</Button>
 			</div>
 			<div className={styles['sidebar__bottom']}>
