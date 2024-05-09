@@ -16,15 +16,33 @@ const id = Cookies.get('user')?.split('"')[1];
 
 const Company = ({ company, setGlobalData }: Company) => {
 	const [data, setData] = useState(company);
+	const [originalData] = useState(company);
 	const [errorMsg, setErrorMsg] = useState('');
+	const [wasEdited, setWasEdited] = useState(false);
+
+	const isDataChanged = (data1: Contact, data2: Contact) => {
+		return JSON.stringify(data1) !== JSON.stringify(data2);
+	};
 
 	const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
+
+		// setData(prevData => ({
+		// 	...prevData,
+		// 	[name]: value,
+		// }));
 
 		setData(prevData => ({
 			...prevData,
 			[name]: value,
 		}));
+
+		// console.group('Contact data');
+		// console.log(data.name);
+		// console.log(data.phone);
+		// console.log(originalData.name);
+		// console.log(originalData.phone);
+		// console.groupEnd();
 	};
 
 	const handleClick = async (contact: Contact) => {
@@ -45,6 +63,32 @@ const Company = ({ company, setGlobalData }: Company) => {
 			.catch(ex => console.log(ex));
 	};
 
+	const handleSave = async () => {
+		const response = await fetch(`http://localhost:3000/update-contacts/${id}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		if (!response.ok) {
+			return setErrorMsg('Nie udało się zaktualizować danych');
+		}
+
+		setWasEdited(false);
+
+		return console.log('Zapisano');
+	};
+
+	useEffect(() => {
+		if (isDataChanged(data, originalData)) {
+			setWasEdited(true);
+		} else {
+			setWasEdited(false);
+		}
+	}, [data, originalData]);
+
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setErrorMsg('');
@@ -61,8 +105,13 @@ const Company = ({ company, setGlobalData }: Company) => {
 				<>
 					<input onChange={e => handleChange(e)} className={styles.input} type='text' value={data.name} name='name' />
 					<input onChange={e => handleChange(e)} className={styles.input} type='text' value={data.phone} name='phone' />
-					<input onChange={e => handleChange(e)} className={styles.input} type='text' value={data.link} name='link' />
+					<span>
+						<a target='_blank' rel='noopener noreferrer' className={styles.link} href={data.link}>
+							Link
+						</a>
+					</span>
 					<button onClick={() => handleClick(company)} className={styles.button} />
+					{wasEdited && <button onClick={handleSave}>Zapisz</button>}
 				</>
 			) : (
 				<Error message={errorMsg} />

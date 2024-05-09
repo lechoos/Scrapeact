@@ -60,6 +60,7 @@
 .company {
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   padding-inline: 2rem;
   padding-bottom: 3rem;
   max-width: 100%;
@@ -76,9 +77,20 @@
   font-family: "Ubuntu", 'sans-serif';
   background: transparent;
   border: none;
+  border-right: 2px solid $accentColor;
+}
+
+.link {
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  color: #fff;
+  background-color: $accentColor;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
   
-  &:is(:not(:last-of-type)) {
-    border-right: 2px solid $accentColor;
+  &:hover {
+    background-color: $secondaryColor;
   }
 }
 
