@@ -72,15 +72,6 @@ const ScrapeController = async (req, res) => {
 					if (!wrapper.querySelector('a[data-value="Witryna"]')) {
 						const name = wrapper.querySelector('.fontHeadlineSmall').textContent;
 						const link = wrapper.querySelector('a');
-						// const spans = wrapper.querySelectorAll('span');
-						// const regex = /([0-9]+( [0-9]+)+)/i;
-
-						// let phone;
-						// spans.forEach(span => {
-						// 	if (regex.test(span.textContent)) {
-						// 		phone = span.textContent;
-						// 	}
-						// });
 
 						return {
 							name: name,
@@ -102,10 +93,8 @@ const ScrapeController = async (req, res) => {
 		const arrayToRespond = [];
 
 		for (const item of finalArr) {
-			console.log('Lecimy');
 			const page = await browser.newPage();
 			await page.goto(item.link);
-			// await page.waitForSelector('div.Io6YTe');
 
 			let hasWebsite = '';
 
@@ -114,7 +103,6 @@ const ScrapeController = async (req, res) => {
 			} catch (ex) {}
 
 			if (hasWebsite !== undefined && hasWebsite !== '') {
-				console.log('yeeet');
 				const index = finalArr.indexOf(item);
 				finalArr.splice(index, 1);
 			} else {
@@ -122,15 +110,13 @@ const ScrapeController = async (req, res) => {
 				try {
 					phone = await page.$eval('button[aria-label^="Telefon:"]', el => el.textContent.trim());
 					phone = phone.replace(/^[^\d]+/, '');
-					console.log(phone);
 				} catch (error) {
-					console.log('Nie znaleziono numeru telefonu.');
-					item.phone = 'Nie znaleziono'
+					item.phone = 'Nie znaleziono';
 				} finally {
 					item.phone = phone || 'Nie znaleziono';
 					arrayToRespond.push(item);
 					setTimeout(async () => {
-						await page.close()
+						await page.close();
 					}, 100);
 				}
 			}
