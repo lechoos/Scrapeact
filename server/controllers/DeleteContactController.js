@@ -9,8 +9,8 @@ const DeleteContactController = async (req, res) => {
 
 		res.status(202).json('ok');
 	} catch (error) {
-    return res.status(400).json('Nie udało się usunąć kontaktu');
-  }
+		return res.status(400).json('Nie udało się usunąć kontaktu');
+	}
 };
 
 module.exports = DeleteContactController;
