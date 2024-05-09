@@ -9,7 +9,7 @@ const DeleteContactController = async (req, res) => {
 
 		res.status(202).json('ok');
 	} catch (error) {
-		return res.status(400).json('Nie udało się usunąć kontaktu');
+		return res.status(400).json({ message: 'Nie udało się usunąć kontaktu' });
 	}
 };
 

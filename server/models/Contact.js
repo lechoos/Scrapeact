@@ -14,12 +14,12 @@ const contactSchema = mongoose.Schema({
 	},
 	uuid: {
 		type: String,
-    required: true,
+		required: true,
 	},
-  ownerID: {
-    type: String,
-    required: true,
-  }
+	ownerID: {
+		type: String,
+		required: true,
+	},
 });
 
 module.exports = mongoose.model('Contact', contactSchema);

@@ -16,7 +16,7 @@ const id = Cookies.get('user')?.split('"')[1];
 
 const Company = ({ company, setGlobalData }: Company) => {
 	const [data, setData] = useState(company);
-	const [originalData] = useState(company);
+	const [originalData, setOriginalData] = useState(company);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [wasEdited, setWasEdited] = useState(false);
 
@@ -27,22 +27,10 @@ const Company = ({ company, setGlobalData }: Company) => {
 	const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 
-		// setData(prevData => ({
-		// 	...prevData,
-		// 	[name]: value,
-		// }));
-
 		setData(prevData => ({
 			...prevData,
 			[name]: value,
 		}));
-
-		// console.group('Contact data');
-		// console.log(data.name);
-		// console.log(data.phone);
-		// console.log(originalData.name);
-		// console.log(originalData.phone);
-		// console.groupEnd();
 	};
 
 	const handleClick = async (contact: Contact) => {
@@ -56,14 +44,24 @@ const Company = ({ company, setGlobalData }: Company) => {
 				if (res.status === 202) {
 					setGlobalData(prev => prev.filter(comp => comp.link !== contact.link));
 					return res.json();
-				} else {
-					setErrorMsg('Nie udało się usunąć kontaktu');
+				} else if (res.status === 400 && typeof res.json() === 'object') {
+					console.log(res);
+
+					setErrorMsg('Nie udało się zapisać kontaktu');
 				}
 			})
 			.catch(ex => console.log(ex));
 	};
 
 	const handleSave = async () => {
+		if (data.name === '' || data.phone.replace(/\s/g, '').length < 9) {
+			return setErrorMsg(
+				'Zapisywane dane są nieprawidłowe (nazwa firmy nie może być pusta, a numer telefonu mieć mniej niż 9 znaków)'
+			);
+		} else {
+			setErrorMsg('');
+		}
+
 		const response = await fetch(`http://localhost:3000/update-contacts/${id}`, {
 			method: 'POST',
 			headers: {
@@ -77,8 +75,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 		}
 
 		setWasEdited(false);
-
-		return console.log('Zapisano');
+		setOriginalData(data);
 	};
 
 	useEffect(() => {
@@ -124,6 +121,15 @@ export const Profile = () => {
 	const [data, setData] = useState<Contact[]>([{ name: '', link: '', phone: '', ownerId: '' }]);
 	const [user, setUser] = useState<User>();
 	const [loading, setLoading] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
+
+	const showError = () => {
+		if (errorMsg.length !== 0) {
+			return <Error message={errorMsg} />;
+		} else {
+			return null;
+		}
+	};
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -137,7 +143,8 @@ export const Profile = () => {
 				body: JSON.stringify({ id: id }),
 			})
 				.then(res => res.json())
-				.then(response => setUser(response));
+				.then(response => setUser(response))
+				.catch(ex => setErrorMsg(ex.message));
 
 			setTimeout(() => {
 				setLoading(false);
@@ -154,7 +161,10 @@ export const Profile = () => {
 			await fetch(`http://localhost:3000/contacts/${id}`)
 				.then(res => res.json())
 				.then(resJson => setData(resJson))
-				.catch(ex => console.log(ex));
+				.catch(ex => {
+					console.log(ex);
+					setErrorMsg('Nie udało się pobrać kontaktów');
+				});
 
 			setTimeout(() => {
 				setLoading(false);
@@ -170,6 +180,7 @@ export const Profile = () => {
 				<LottieAnimation classes={styles.lottie} animationData={animationData} />
 			) : (
 				<>
+					{showError()}
 					<header className={styles.header}>
 						<div className={styles.info}>
 							<h2 className={styles.title}>{user?.nickname}</h2>

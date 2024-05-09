@@ -3,8 +3,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 interface RouteTypes {
-  redirectTo?: string;
-  children: ReactNode
+	redirectTo?: string;
+	children: ReactNode;
 }
 
 export default function PublicRoute({ redirectTo = '/app', children }: RouteTypes) {

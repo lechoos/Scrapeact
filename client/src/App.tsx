@@ -12,15 +12,54 @@ import PublicRoute from './routes/PublicRoute';
 const App = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
-			<Route path='/zaloguj' element={<PublicRoute><Login /></PublicRoute>} />
-			<Route path='/zarejestruj' element={<PublicRoute><Register /></PublicRoute>} />
-			<Route path='/app' element={<PrivateRoute><Main /></PrivateRoute>} />
-			<Route path='/profil' element={<PrivateRoute><Profile /></PrivateRoute>} />
-			<Route path='/ustawienia' element={<PrivateRoute><Settings /></PrivateRoute>} />
-			{/* <PrivateRoute path='/app' element={<Main />} />
-			<PrivateRoute path='/profil' element={<Profile />} />
-			<PrivateRoute path='/ustawienia' element={<Settings />} /> */}
+			<Route
+				path='/'
+				element={
+					<PublicRoute>
+						<Home />
+					</PublicRoute>
+				}
+			/>
+			<Route
+				path='/zaloguj'
+				element={
+					<PublicRoute>
+						<Login />
+					</PublicRoute>
+				}
+			/>
+			<Route
+				path='/zarejestruj'
+				element={
+					<PublicRoute>
+						<Register />
+					</PublicRoute>
+				}
+			/>
+			<Route
+				path='/app'
+				element={
+					<PrivateRoute>
+						<Main />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/profil'
+				element={
+					<PrivateRoute>
+						<Profile />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/ustawienia'
+				element={
+					<PrivateRoute>
+						<Settings />
+					</PrivateRoute>
+				}
+			/>
 		</Routes>
 	);
 };

@@ -83,12 +83,10 @@ const ScrapeController = async (req, res) => {
 
 			return {
 				finalArr,
-				len: els.length,
 			};
 		});
 
-		const { finalArr, len } = parents;
-		console.log(len);
+		const { finalArr } = parents;
 
 		const arrayToRespond = [];
 
@@ -122,14 +120,11 @@ const ScrapeController = async (req, res) => {
 			}
 		}
 
-		console.log('--------------');
-		console.log(arrayToRespond.length);
-
 		const companiesData = JSON.stringify(arrayToRespond);
 
 		res.send(companiesData);
 	} catch (ex) {
-		console.log(ex);
+		return res.status(500).json({ message: ex.message });
 	}
 };
 

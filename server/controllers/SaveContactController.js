@@ -26,7 +26,6 @@ const SaveContactController = async (req, res) => {
 
     res.status(200).json('Kontakty zostały zapisane');
 	} catch (error) {
-		console.log(error);
     res.status(500).json('Wystąpił problem');
 	}
 };

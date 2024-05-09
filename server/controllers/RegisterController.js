@@ -14,7 +14,6 @@ const RegisterController = (req, res) => {
 		const doesExist = await User.find({ email: email });
 
 		if (doesExist.length !== 0) {
-			console.log(doesExist);
 			return res.status(409).json({ error: true, message: 'Użytkownik już istnieje!' });
 		}
 
@@ -26,18 +25,18 @@ const RegisterController = (req, res) => {
 				res.cookie('access-token', accessToken, {
 					maxAge: 60 * 60 * 24 * 30 * 1000,
 					httpOnly: true,
-					domain: 'localhost', // ustaw właściwą domenę
-					path: '/', // ustaw właściwą ścieżkę
+					domain: 'localhost',
+					path: '/',
 				});
 
 				res.cookie('user', newUser._id, {
 					maxAge: 60 * 60 * 24 * 30 * 1000,
 				});
 
-				res.json('Zapisano do bazy danych');
+				res.status(202).json('Zapisano do bazy danych');
 			})
 			.catch(ex => {
-				res.status(400).json({ error: ex });
+				res.status(400).json({ message: ex.message });
 			});
 	});
 }

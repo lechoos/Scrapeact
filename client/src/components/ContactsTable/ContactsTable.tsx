@@ -105,11 +105,11 @@ export const ContactsTable = ({ data }: Data) => {
 	const onSave = async () => {
 		if (rowsToSave.length > 0) {
 			await fetch('http://localhost:3000/save', {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(rowsToSave)
+				body: JSON.stringify(rowsToSave),
 			})
 				.then(res => res.json())
 				.then(async resJson => {
@@ -187,7 +187,9 @@ export const ContactsTable = ({ data }: Data) => {
 				</tbody>
 			</table>
 			<div className={styles['save__container']}>
-				<button onClick={onSave} className={styles['save__button']}>Zapisz</button>
+				<button onClick={onSave} className={styles['save__button']}>
+					Zapisz
+				</button>
 			</div>
 			{errorMsg.length !== 0 && <Error message={errorMsg} />}
 		</div>

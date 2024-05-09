@@ -8,8 +8,6 @@ import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
 import { EMAIL_REGEX, USERNAME_REGEX } from '../../../utils/regex';
 
-import Cookies from 'js-cookie';
-
 interface RegisterFormTypes {
 	nickname: string;
 	email: string;
@@ -47,8 +45,6 @@ export const Register = () => {
 		})
 			.then(res => res.json())
 			.then(response => {
-				console.log(response);
-				console.log(Cookies.get('user'));
 				setResponse(response);
 				navigate('/app');
 			})
@@ -67,10 +63,12 @@ export const Register = () => {
 						<Controller
 							name='nickname'
 							control={control}
-							rules={{ required: true, minLength: 4 , pattern: USERNAME_REGEX}}
+							rules={{ required: true, minLength: 4, pattern: USERNAME_REGEX }}
 							render={({ field }) => <FormInput label='Nazwa użytkownika' {...field} />}
 						/>
-						{errors.nickname?.type === 'pattern' && <Error message='Nazwa użytkownika może składać się tylko z liter i cyfr' />}
+						{errors.nickname?.type === 'pattern' && (
+							<Error message='Nazwa użytkownika może składać się tylko z liter i cyfr' />
+						)}
 						{errors.nickname?.type === 'minLength' && <Error message='Nazwa użytkownika jest zbyt krótka' />}
 						{errors.nickname?.type === 'required' && <Error message='Nazwa użytkownika jest wymagana' />}
 					</div>

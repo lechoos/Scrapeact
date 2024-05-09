@@ -8,7 +8,7 @@ const FetchUserController = async (req, res) => {
 	if (user) {
 		return res.json(user);
 	} else {
-		return res.json({ error: true, message: 'Nie znaleziono użytkownika' });
+		return res.json({ message: 'Nie znaleziono użytkownika' });
 	}
 };
 

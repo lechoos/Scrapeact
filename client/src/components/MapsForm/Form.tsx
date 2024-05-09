@@ -4,7 +4,6 @@ import { ThreeDots } from 'react-loader-spinner';
 import styles from './form.module.scss';
 import { FormCorners } from '../FormCorners/FormCorners';
 import { Error as ErrorComponent } from '../Error/Error';
-// import { URL_REGEX } from '../../../utils/regex';
 
 interface FormProps {
 	setData: Dispatch<SetStateAction<Contact[]>>;
@@ -27,16 +26,6 @@ export const MapsForm = ({ setData }: FormProps) => {
 			return null;
 		}
 
-		console.log(link);
-
-		// const isValid = URL_REGEX.test(link);
-
-		// if (!isValid) {
-		// 	const message = index === 5 ? 'Sprawdzasz ile razy możesz kliknąć przycisk? ;)' : 'Adres jest nieprawidłowy :(';
-		// 	setError(message);
-		// 	return null;
-		// }
-
 		setError('');
 		setLoading(true);
 
@@ -54,7 +43,6 @@ export const MapsForm = ({ setData }: FormProps) => {
 			}
 
 			const resData: Contact[] = await response.json();
-			await console.log(resData);
 
 			setData(resData);
 			setError('');

@@ -27,6 +27,4 @@ app.use(UserRoutes);
 
 app.use(ContactRoutes);
 
-app.listen(3000, () => {
-	console.log('Serwer słucha na porcie 3000...');
-});
+app.listen(3000);

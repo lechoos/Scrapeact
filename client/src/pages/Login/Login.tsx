@@ -8,8 +8,6 @@ import { Error } from '../../components/Error/Error';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { EMAIL_REGEX } from '../../../utils/regex';
 
-import Cookies from 'js-cookie';
-
 interface LoginTypes {
 	email: string;
 	password: string;
@@ -42,8 +40,6 @@ export const Login = () => {
 		})
 			.then(res => res.json())
 			.then(response => {
-				console.log(response);
-				console.log(Cookies.get('user'));
 				setResponse(response);
 
 				if (typeof response === 'string') {

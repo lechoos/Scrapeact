@@ -13,7 +13,7 @@ const DeleteUserController = async (req, res) => {
 
 		res.status(200).json('Usunięto');
 	} catch (error) {
-		res.status(400).json({ error: true, message: 'Wystąpił błąd przy usuwaniu użytkownika' });
+		res.status(400).json({ message: 'Wystąpił błąd przy usuwaniu użytkownika' });
 	}
 };
 
