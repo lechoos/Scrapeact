@@ -104,7 +104,7 @@ export const ContactsTable = ({ data }: Data) => {
 
 	const onSave = async () => {
 		if (rowsToSave.length > 0) {
-			await fetch('http://localhost:3000/save', {
+			await fetch('https://scrapeact-api.vercel.app/save', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

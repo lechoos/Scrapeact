@@ -30,10 +30,10 @@ export const Login = () => {
 	const navigate = useNavigate();
 
 	const onSubmit: SubmitHandler<LoginTypes> = async data => {
-		await fetch('http://localhost:3000/login', {
+		await fetch('https://scrapeact-api.vercel.app/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({ email: data.email, password: data.password }),
 			credentials: 'include',

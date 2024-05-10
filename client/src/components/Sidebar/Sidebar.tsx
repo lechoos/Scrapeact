@@ -14,7 +14,7 @@ export const Sidebar = ({ isOpen, user }: SidebarTypes) => {
 	const isSidebarOpen = isOpen && styles.active;
 
 	const onClickHandler = async () => {
-		await fetch('http://localhost:3000/logout', {
+		await fetch('https://scrapeact-api.vercel.app/logout', {
 			method: 'GET',
 			credentials: 'include',
 		})

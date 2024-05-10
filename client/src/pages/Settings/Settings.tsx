@@ -40,7 +40,7 @@ export const Settings = () => {
 			password: data.password,
 		};
 
-		await fetch('http://localhost:3000/edit-user', {
+		await fetch('https://scrapeact-api.vercel.app/edit-user', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const Settings = () => {
 	};
 
 	const onDelete = async () => {
-		await fetch('http://localhost:3000/delete-user', {
+		await fetch('https://scrapeact-api.vercel.app/delete-user', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export const Settings = () => {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			await fetch('http://localhost:3000/user', {
+			await fetch('https://scrapeact-api.vercel.app/user', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import styles from './register.module.scss';
 import { ServerResponse } from '../../types/Server';
+import { User } from '../../types/User';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
 import { EMAIL_REGEX, USERNAME_REGEX } from '../../../utils/regex';
+
+import Cookies from 'js-cookie';
 
 interface RegisterFormTypes {
 	nickname: string;
@@ -14,9 +17,14 @@ interface RegisterFormTypes {
 	password: string;
 }
 
+interface RegisteredUser extends User {
+	accessToken?: string;
+	id?: string;
+}
+
 export const Register = () => {
 	const [, setLoading] = useState(false);
-	const [response, setResponse] = useState<ServerResponse>('');
+	const [response, setResponse] = useState<ServerResponse | RegisteredUser>('');
 
 	const {
 		control,
@@ -35,7 +43,7 @@ export const Register = () => {
 	const onSubmit: SubmitHandler<RegisterFormTypes> = async data => {
 		setLoading(true);
 
-		await fetch('http://localhost:3000/register', {
+		await fetch('https://scrapeact-api.vercel.app/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -45,6 +53,11 @@ export const Register = () => {
 		})
 			.then(res => res.json())
 			.then(response => {
+				console.log(response);
+				Cookies.set('access-token', response.accessToken, { expires: 30 });
+				Cookies.set('user', response.id, { expires: 30 });
+				console.log(Cookies.get('access-token'));
+				console.log(Cookies.get('user'));
 				setResponse(response);
 				navigate('/app');
 			})
@@ -91,7 +104,7 @@ export const Register = () => {
 						/>
 						{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
 						{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
-						{typeof response === 'object' && <Error message={response.message} />}
+						{typeof response === 'object' && 'message' in response && <Error message={response?.message} />}
 					</div>
 					<SubmitButton variant='primary'>Zarejestruj</SubmitButton>
 				</form>

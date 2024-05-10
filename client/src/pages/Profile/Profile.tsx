@@ -34,7 +34,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 	};
 
 	const handleClick = async (contact: Contact) => {
-		await fetch(`http://localhost:3000/${contact.uuid}/${id}`, {
+		await fetch(`https://scrapeact-api.vercel.app/${contact.uuid}/${id}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 			setErrorMsg('');
 		}
 
-		const response = await fetch(`http://localhost:3000/update-contacts/${id}`, {
+		const response = await fetch(`https://scrapeact-api.vercel.app/update-contacts/${id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 						</a>
 					</span>
 					<button onClick={() => handleClick(company)} className={styles.button} />
-					{wasEdited && <button onClick={handleSave}>Zapisz</button>}
+					{wasEdited && <button onClick={handleSave} className={styles.link}>Zapisz</button>}
 				</>
 			) : (
 				<Error message={errorMsg} />
@@ -135,7 +135,7 @@ export const Profile = () => {
 		const fetchUser = async () => {
 			setLoading(true);
 
-			await fetch('http://localhost:3000/user', {
+			await fetch('https://scrapeact-api.vercel.app/user', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ export const Profile = () => {
 		const fetchContacts = async () => {
 			setLoading(true);
 
-			await fetch(`http://localhost:3000/contacts/${id}`)
+			await fetch(`https://scrapeact-api.vercel.app/contacts/${id}`)
 				.then(res => res.json())
 				.then(resJson => setData(resJson))
 				.catch(ex => {

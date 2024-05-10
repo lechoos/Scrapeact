@@ -20,11 +20,11 @@ export const Main = () => {
 		setActive(prev => !prev);
 	};
 
-	const id = Cookies.get('user')?.split('"')[1];
+	const id = Cookies.get('user');
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			await fetch('http://localhost:3000/user', {
+			await fetch('https://scrapeact-api.vercel.app/user', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

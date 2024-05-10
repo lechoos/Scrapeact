@@ -21,10 +21,16 @@ app.use(cookieParser());
 
 require('./db/db');
 
+app.get('/', (req, res) => {
+	res.send('Hello Vercel');
+});
+
 app.use(ScrapingRoutes);
 
 app.use(UserRoutes);
 
 app.use(ContactRoutes);
 
-app.listen(3000);
+app.listen(4000);
+
+module.exports = app;
