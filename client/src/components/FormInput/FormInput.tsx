@@ -6,7 +6,7 @@ interface InputTypes {
 	label: string;
 	ref: React.Ref<HTMLInputElement>;
 	onChange: (value: string) => void;
-	value: unknown;
+	value?: unknown;
 }
 
 export const FormInput = React.forwardRef<HTMLInputElement, InputTypes>(({ name, label, onChange, value }, ref) => {

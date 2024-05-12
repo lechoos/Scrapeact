@@ -12,7 +12,7 @@ type Company = {
 	setGlobalData: Dispatch<SetStateAction<Contact[]>>;
 };
 
-const id = Cookies.get('user')?.split('"')[1];
+const id = Cookies.get('user');
 
 const Company = ({ company, setGlobalData }: Company) => {
 	const [data, setData] = useState(company);
@@ -34,7 +34,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 	};
 
 	const handleClick = async (contact: Contact) => {
-		await fetch(`https://scrapeact-api.vercel.app/${contact.uuid}/${id}`, {
+		await fetch(`${import.meta.env.VITE_SERVER}/${contact.uuid}/${id}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const Company = ({ company, setGlobalData }: Company) => {
 			setErrorMsg('');
 		}
 
-		const response = await fetch(`https://scrapeact-api.vercel.app/update-contacts/${id}`, {
+		const response = await fetch(`${import.meta.env.VITE_SERVER}/update-contacts/${id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ export const Profile = () => {
 		const fetchUser = async () => {
 			setLoading(true);
 
-			await fetch('https://scrapeact-api.vercel.app/user', {
+			await fetch(`${import.meta.env.VITE_SERVER}/user`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ export const Profile = () => {
 		const fetchContacts = async () => {
 			setLoading(true);
 
-			await fetch(`https://scrapeact-api.vercel.app/contacts/${id}`)
+			await fetch(`${import.meta.env.VITE_SERVER}/contacts/${id}`)
 				.then(res => res.json())
 				.then(resJson => setData(resJson))
 				.catch(ex => {

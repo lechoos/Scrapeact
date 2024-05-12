@@ -7,14 +7,22 @@ import { FormInput } from '../../components/FormInput/FormInput';
 import { Error } from '../../components/Error/Error';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { EMAIL_REGEX } from '../../../utils/regex';
+import { User } from '../../types/User';
+
+import Cookies from 'js-cookie';
 
 interface LoginTypes {
 	email: string;
 	password: string;
 }
 
+interface RegisteredUser extends User {
+	accessToken?: string;
+	id?: string;
+}
+
 export const Login = () => {
-	const [response, setResponse] = useState<ServerResponse>('');
+	const [response, setResponse] = useState<ServerResponse | RegisteredUser>('');
 
 	const {
 		control,
@@ -30,7 +38,7 @@ export const Login = () => {
 	const navigate = useNavigate();
 
 	const onSubmit: SubmitHandler<LoginTypes> = async data => {
-		await fetch('https://scrapeact-api.vercel.app/login', {
+		await fetch(`${import.meta.env.VITE_SERVER}/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -40,11 +48,13 @@ export const Login = () => {
 		})
 			.then(res => res.json())
 			.then(response => {
+				console.log(response);
+				Cookies.set('access-token', response.accessToken, { expires: 30 });
+				Cookies.set('user', response.id, { expires: 30 });
+				console.log(Cookies.get('access-token'));
+				console.log(Cookies.get('user'));
 				setResponse(response);
-
-				if (typeof response === 'string') {
-					navigate('/app');
-				}
+				navigate('/app');
 			})
 			.catch(ex => console.log(ex));
 	};
@@ -77,7 +87,7 @@ export const Login = () => {
 						{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
 						{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
 					</div>
-					{typeof response === 'object' && <Error message={response.message} />}
+					{typeof response === 'object' && 'message' in response && <Error message={response.message} />}
 					<SubmitButton variant='primary'>Zaloguj</SubmitButton>
 				</form>
 			</main>

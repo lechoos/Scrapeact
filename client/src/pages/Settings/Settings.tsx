@@ -22,7 +22,7 @@ export const Settings = () => {
 
 	const navigate = useNavigate();
 
-	const id = Cookies.get('user')?.split('"')[1] as string;
+	const id = Cookies.get('user');
 
 	const {
 		control,
@@ -30,17 +30,23 @@ export const Settings = () => {
 		formState: { errors },
 		reset,
 		setValue,
-	} = useForm<EditFormTypes>();
+	} = useForm<EditFormTypes>({
+		defaultValues: {
+			nickname: '',
+			email: '',
+			password: ''
+		}
+	});
 
 	const onSubmit: SubmitHandler<EditFormTypes> = async data => {
 		const userToUpdate: User = {
 			_id: id,
 			nickname: data.nickname,
 			email: data.email,
-			password: data.password,
+			password: data?.password,
 		};
 
-		await fetch('https://scrapeact-api.vercel.app/edit-user', {
+		await fetch(`${import.meta.env.VITE_SERVER}/edit-user`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -54,7 +60,7 @@ export const Settings = () => {
 	};
 
 	const onDelete = async () => {
-		await fetch('https://scrapeact-api.vercel.app/delete-user', {
+		await fetch(`${import.meta.env.VITE_SERVER}/delete-user`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -75,7 +81,7 @@ export const Settings = () => {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			await fetch('https://scrapeact-api.vercel.app/user', {
+			await fetch(`${import.meta.env.VITE_SERVER}/user`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -102,7 +108,6 @@ export const Settings = () => {
 			reset({
 				nickname: user.nickname,
 				email: user.email,
-				password: user.password,
 			});
 		}
 	}, [user, reset]);
@@ -142,11 +147,10 @@ export const Settings = () => {
 								<Controller
 									name='password'
 									control={control}
-									rules={{ minLength: 6, required: true }}
-									render={({ field }) => <FormInput label='Hasło' {...field} value='' />}
+									rules={{ minLength: 6 }}
+									render={({ field }) => <FormInput label='Hasło' {...field} />}
 								/>
 								{errors.password?.type === 'minLength' && <Error message='Hasło jest zbyt krótkie' />}
-								{errors.password?.type === 'required' && <Error message='Hasło jest wymagane' />}
 								{typeof response === 'object' && <Error message={response.message} />}
 								{typeof response === 'string' && <Success message={response} />}
 							</div>

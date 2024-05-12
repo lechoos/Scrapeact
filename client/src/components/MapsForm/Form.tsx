@@ -30,7 +30,7 @@ export const MapsForm = ({ setData }: FormProps) => {
 		setLoading(true);
 
 		try {
-			const response = await fetch('https://scrapeact-api.vercel.app/scrape', {
+			const response = await fetch(`${import.meta.env.VITE_SERVER}/scrape`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

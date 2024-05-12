@@ -93,7 +93,6 @@ export const ContactsTable = ({ data }: Data) => {
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
-		columnResizeMode: 'onChange',
 		enableRowSelection: true,
 		getRowId: row => row.uuid,
 		onRowSelectionChange: handleRowSelectionChange,

@@ -24,7 +24,7 @@ export const Main = () => {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			await fetch('https://scrapeact-api.vercel.app/user', {
+			await fetch(`${import.meta.env.VITE_SERVER}/user`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

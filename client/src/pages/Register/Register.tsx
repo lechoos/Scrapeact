@@ -43,7 +43,7 @@ export const Register = () => {
 	const onSubmit: SubmitHandler<RegisterFormTypes> = async data => {
 		setLoading(true);
 
-		await fetch('https://scrapeact-api.vercel.app/register', {
+		await fetch(`${import.meta.env.VITE_SERVER}/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

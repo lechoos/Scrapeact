@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../LinkButton/LinkButton';
 import { User } from '../../types/User';
 
+import Cookies from 'js-cookie';
+
 interface SidebarTypes {
 	isOpen: boolean;
 	user: User;
@@ -14,15 +16,10 @@ export const Sidebar = ({ isOpen, user }: SidebarTypes) => {
 	const isSidebarOpen = isOpen && styles.active;
 
 	const onClickHandler = async () => {
-		await fetch('https://scrapeact-api.vercel.app/logout', {
-			method: 'GET',
-			credentials: 'include',
-		})
-			.then(() => {
-				console.log('Wylogowano');
-				navigate('/');
-			})
-			.catch(ex => console.log(ex));
+		await Cookies.remove('access-token');
+		await Cookies.remove('user');
+
+		navigate('/');
 	};
 
 	useEffect(() => {
