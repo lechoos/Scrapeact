@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../state/store';
+import { logout } from '../../state/user/userSlice';
 import styles from './sidebar.module.scss';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../LinkButton/LinkButton';
 import { User } from '../../types/User';
-
-import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarTypes {
 	isOpen: boolean;
@@ -12,13 +13,13 @@ interface SidebarTypes {
 }
 
 export const Sidebar = ({ isOpen, user }: SidebarTypes) => {
-	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 	const isSidebarOpen = isOpen && styles.active;
 
-	const onClickHandler = async () => {
-		await Cookies.remove('access-token');
-		await Cookies.remove('user');
+	const navigate = useNavigate();
 
+	const onClickHandler = async () => {
+		dispatch(logout());
 		navigate('/');
 	};
 

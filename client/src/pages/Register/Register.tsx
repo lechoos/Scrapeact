@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../state/store';
+// import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { login } from '../../state/user/userSlice';
 import styles from './register.module.scss';
 import { ServerResponse } from '../../types/Server';
-import { User } from '../../types/User';
+import { User, LoggedUser } from '../../types/User';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton } from '../../components/LinkButton/LinkButton';
 import { Error } from '../../components/Error/Error';
 import { EMAIL_REGEX, USERNAME_REGEX } from '../../../utils/regex';
 
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 interface RegisterFormTypes {
 	nickname: string;
@@ -25,6 +28,7 @@ interface RegisteredUser extends User {
 export const Register = () => {
 	const [, setLoading] = useState(false);
 	const [response, setResponse] = useState<ServerResponse | RegisteredUser>('');
+	const dispatch = useDispatch<AppDispatch>();
 
 	const {
 		control,
@@ -38,7 +42,7 @@ export const Register = () => {
 		},
 	});
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	const onSubmit: SubmitHandler<RegisterFormTypes> = async data => {
 		setLoading(true);
@@ -52,14 +56,19 @@ export const Register = () => {
 			credentials: 'include',
 		})
 			.then(res => res.json())
-			.then(response => {
-				console.log(response);
-				Cookies.set('access-token', response.accessToken, { expires: 30 });
-				Cookies.set('user', response.id, { expires: 30 });
-				console.log(Cookies.get('access-token'));
-				console.log(Cookies.get('user'));
+			.then(async response => {
 				setResponse(response);
-				navigate('/app');
+				console.log(response._doc);
+
+				const registeredUser: LoggedUser = {
+					nickname: response._doc.nickname,
+					email: response._doc.email,
+					_id: response.id,
+					accessToken: response.accessToken,
+					isLoggedIn: true,
+				};
+
+				await dispatch(login({ user: registeredUser }));
 			})
 			.catch(ex => console.log(ex));
 	};

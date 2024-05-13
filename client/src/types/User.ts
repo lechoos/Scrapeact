@@ -4,3 +4,9 @@ export interface User {
 	email?: string;
 	password?: string;
 }
+
+export interface LoggedUser extends User {
+	accessToken: string;
+	isLoggedIn: boolean;
+	isInitialized?: boolean;
+}

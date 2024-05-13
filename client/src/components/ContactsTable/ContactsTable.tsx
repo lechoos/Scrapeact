@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 import {
 	flexRender,
 	getCoreRowModel,
@@ -14,8 +16,6 @@ import { LinkCell } from '../LinkCell/LinkCell';
 import { PhoneCell } from '../PhoneCell/PhoneCell';
 import { SaveCell } from '../SaveCell/SaveCell';
 import { Error } from '../Error/Error';
-
-import Cookies from 'js-cookie';
 
 interface DataRow {
 	uuid: string;
@@ -41,6 +41,8 @@ interface Columns {
 }
 
 export const ContactsTable = ({ data }: Data) => {
+	const { _id } = useSelector((state: RootState) => state.user);
+
 	const [tableWidth] = useState(768);
 	const [rowSelection, setRowSelection] = useState({});
 	const [response, setResponse] = useState('');
@@ -48,8 +50,6 @@ export const ContactsTable = ({ data }: Data) => {
 
 	const [rowsToSave, setRowsToSave] = useState<OwnedContact[]>([]);
 	const containerRef = useRef(null);
-
-	const id = Cookies.get('user')?.split('"')[1];
 
 	const handleRowSelectionChange = (newSelection: Updater<RowSelectionState>) => {
 		// Aktualizuj zaznaczenia w tabeli
@@ -103,7 +103,7 @@ export const ContactsTable = ({ data }: Data) => {
 
 	const onSave = async () => {
 		if (rowsToSave.length > 0) {
-			await fetch('https://scrapeact-api.vercel.app/save', {
+			await fetch(`${import.meta.env.VITE_SERVER}/save`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -119,6 +119,8 @@ export const ContactsTable = ({ data }: Data) => {
 					if (status === 'error') {
 						console.log(response);
 					}
+
+					setErrorMsg('');
 				});
 		} else {
 			setErrorMsg('Musisz zaznaczyć kontakty, które chcesz zapisać');
@@ -130,25 +132,25 @@ export const ContactsTable = ({ data }: Data) => {
 		const selectedRows = table.getSelectedRowModel().flatRows;
 
 		// Zaktualizuj stan rowsToSave na podstawie zaznaczonych rzędów
-		const updatedRowsToSave = selectedRows.map(row => ({ ...row.original, ownerID: id }));
+		const updatedRowsToSave = selectedRows.map(row => ({ ...row.original, ownerID: _id }));
 		setRowsToSave(updatedRowsToSave);
 
-		console.log(updatedRowsToSave);
-	}, [rowSelection, id, table]);
+		setErrorMsg('');
+	}, [rowSelection, _id, table]);
 
 	return (
 		<div ref={containerRef} className={styles['table__container']}>
 			<div className={styles['pagination__buttons']}>
-				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(0)}>
+				<button disabled={!table.getCanPreviousPage()} className={styles['pagination__button']} onClick={() => table.setPageIndex(0)}>
 					Pierwsza strona
 				</button>
-				<button className={styles['pagination__button']} onClick={() => table.previousPage()}>
+				<button disabled={!table.getCanPreviousPage()} className={styles['pagination__button']} onClick={() => table.previousPage()}>
 					Poprzednia strona
 				</button>
-				<button className={styles['pagination__button']} onClick={() => table.nextPage()}>
+				<button disabled={!table.getCanNextPage()} className={styles['pagination__button']} onClick={() => table.nextPage()}>
 					Następna strona
 				</button>
-				<button className={styles['pagination__button']} onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+				<button disabled={!table.getCanNextPage()} className={styles['pagination__button']} onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
 					Ostatnia strona
 				</button>
 			</div>

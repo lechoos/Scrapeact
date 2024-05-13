@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 import styles from './main.module.scss';
 import { Contact } from '../../types/Contact';
-import { User } from '../../types/User';
 import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { ContactsTable } from '../../components/ContactsTable/ContactsTable';
 import { MapsForm } from '../../components/MapsForm/Form';
 import { Footer } from '../../components/Footer/Footer';
 
-import Cookies from 'js-cookie';
-
 export const Main = () => {
 	const [data, setData] = useState<Contact[]>([]);
-	const [user, setUser] = useState<User>();
 	const [active, setActive] = useState(false);
+	const user = useSelector((state: RootState) => state.user)
 
 	const isActive = active && 'is-active';
 
@@ -20,27 +19,9 @@ export const Main = () => {
 		setActive(prev => !prev);
 	};
 
-	const id = Cookies.get('user');
-
-	useEffect(() => {
-		const fetchUser = async () => {
-			await fetch(`${import.meta.env.VITE_SERVER}/user`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ id: id }),
-			})
-				.then(res => res.json())
-				.then(response => setUser(response));
-		};
-
-		fetchUser();
-	}, [id]);
-
 	return (
 		<>
-			<Sidebar user={user as User} isOpen={active} />
+			<Sidebar user={user} isOpen={active} />
 			<div className='wrapper'>
 				<button onClick={onClickHandler} className={`${styles.button} hamburger hamburger--arrow ${isActive}`}>
 					<span className='hamburger-box'>
@@ -48,7 +29,7 @@ export const Main = () => {
 					</span>
 				</button>
 				<header className={`${styles.header} p-1`}>
-					<h1 className={styles['header__title']}>Cześć {user?.nickname}</h1>
+					<h1 className={styles['header__title']}>Cześć {user.nickname}</h1>
 					<p className={styles['header__text']}>
 						Wklej link do Google Maps, który chcesz zeskanować. My zajmiemy się resztą :)
 					</p>

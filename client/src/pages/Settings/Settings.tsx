@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../state/store';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { logout, updateUser } from '../../state/user/userSlice';
 import styles from './settings.module.scss';
 import { ServerResponse } from '../../types/Server';
 import { User } from '../../types/User';
-import Cookies from 'js-cookie';
 import { FormInput } from '../../components/FormInput/FormInput';
 import { SubmitButton, Button } from '../../components/LinkButton/LinkButton';
 import { Error, Success } from '../../components/Error/Error';
@@ -17,30 +19,29 @@ interface EditFormTypes {
 }
 
 export const Settings = () => {
-	const [user, setUser] = useState<User>();
 	const [response, setResponse] = useState<ServerResponse>();
+	const user = useSelector((state: RootState) => state.user);
+
+	const dispatch = useDispatch<AppDispatch>();
 
 	const navigate = useNavigate();
-
-	const id = Cookies.get('user');
 
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
 		reset,
-		setValue,
 	} = useForm<EditFormTypes>({
 		defaultValues: {
-			nickname: '',
-			email: '',
-			password: ''
-		}
+			nickname: user.nickname,
+			email: user.email,
+			password: '',
+		},
 	});
 
 	const onSubmit: SubmitHandler<EditFormTypes> = async data => {
 		const userToUpdate: User = {
-			_id: id,
+			_id: user._id,
 			nickname: data.nickname,
 			email: data.email,
 			password: data?.password,
@@ -56,6 +57,7 @@ export const Settings = () => {
 			.then(res => res.json())
 			.then(response => {
 				setResponse(response);
+				dispatch(updateUser({ user: userToUpdate }))
 			});
 	};
 
@@ -65,43 +67,18 @@ export const Settings = () => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ _id: id }),
+			body: JSON.stringify({ _id: user._id }),
 		})
 			.then(res => res.json())
 			.then(response => {
 				if (typeof response === 'string') {
-					Cookies.remove('user');
-					Cookies.remove('access-token');
+					dispatch(logout());
 					navigate('/');
 				} else {
 					console.log('Wystąpił błąd');
 				}
 			});
 	};
-
-	useEffect(() => {
-		const fetchUser = async () => {
-			await fetch(`${import.meta.env.VITE_SERVER}/user`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ id: id }),
-			})
-				.then(res => res.json())
-				.then(response => {
-					setUser(response);
-
-					setValue('nickname', user?.nickname);
-					setValue('email', user?.email);
-					setValue('password', user?.password);
-				})
-				.catch(ex => console.log(ex));
-		};
-
-		fetchUser();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id, setValue]);
 
 	useEffect(() => {
 		if (user) {

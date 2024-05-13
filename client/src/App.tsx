@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { initUser } from './state/user/userSlice';
+import { AppDispatch } from './state/store';
 import { Routes, Route } from 'react-router-dom';
 import { Main } from './pages/Main/Main';
 import { Register } from './pages/Register/Register';
@@ -10,6 +14,12 @@ import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 
 const App = () => {
+	const dispatch = useDispatch<AppDispatch>();
+
+	useEffect(() => {
+		dispatch(initUser());
+	}, [dispatch]);
+
 	return (
 		<Routes>
 			<Route

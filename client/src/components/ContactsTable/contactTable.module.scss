@@ -69,6 +69,14 @@
 
 	&__button {
 		@include button;
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: auto;
+			&:hover {
+				background-color: $accentColor;
+			}
+		}
 	}
 }
 
@@ -81,6 +89,6 @@
 	&__button {
 		@include button;
 
-		margin: 2rem auto 8rem;
+		margin: 2rem auto;
 	}
 }
