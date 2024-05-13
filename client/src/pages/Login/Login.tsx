@@ -67,19 +67,6 @@ export const Login = () => {
 				if (user._id) {
 					navigate('/app');
 				}
-
-
-
-
-
-
-
-				// Cookies.set('access-token', response.accessToken, { expires: 30 });
-				// Cookies.set('user', response.id, { expires: 30 });
-				// console.log(Cookies.get('access-token'));
-				// console.log(Cookies.get('user'));
-				// setResponse(response);
-				// navigate('/app');
 			})
 			.catch(ex => console.log(ex));
 	};
