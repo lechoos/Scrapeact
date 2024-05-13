@@ -15,7 +15,7 @@ export const SaveCell = ({ checked, size, click }: SaveProps) => {
 	};
 
 	return (
-		<td onClick={clickHandler} width={size} className={styles['save-cell__container']}>
+		<td data-testid='save-cell' onClick={clickHandler} width={size} className={styles['save-cell__container']}>
 			<span className={`${styles['save-cell']} ${checked ? styles['save-cell--true'] : styles['save-cell--false']}`}>
 				{text}
 			</span>

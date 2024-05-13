@@ -7,7 +7,7 @@ interface CellProps {
 
 export const Cell = ({ size, children }: CellProps) => {
 	return (
-		<td width={size} className={styles.cell}>
+		<td data-testid='company-cell' width={size} className={styles.cell}>
 			{children}
 		</td>
 	);

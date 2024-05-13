@@ -7,7 +7,7 @@ interface LinkProps {
 
 export const LinkCell = ({ link, size }: LinkProps) => {
 	return (
-		<td width={size} className={styles['link-cell__container']}>
+		<td data-testid='link-cell' width={size} className={styles['link-cell__container']}>
 			<a className={styles['link-cell']} href={link}>
 				Link
 			</a>

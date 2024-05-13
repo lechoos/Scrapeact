@@ -139,7 +139,7 @@ export const ContactsTable = ({ data }: Data) => {
 	}, [rowSelection, _id, table]);
 
 	return (
-		<div ref={containerRef} className={styles['table__container']}>
+		<div data-testid='table-container' ref={containerRef} className={styles['table__container']}>
 			<div className={styles['pagination__buttons']}>
 				<button disabled={!table.getCanPreviousPage()} className={styles['pagination__button']} onClick={() => table.setPageIndex(0)}>
 					Pierwsza strona

@@ -7,7 +7,7 @@ interface PhoneProps {
 
 export const PhoneCell = ({ size, children }: PhoneProps) => {
 	return (
-		<td width={size} className={`${styles.cell} ${styles['cell--phone']}`}>
+		<td data-testid='phone-cell' width={size} className={`${styles.cell} ${styles['cell--phone']}`}>
 			{children}
 		</td>
 	);

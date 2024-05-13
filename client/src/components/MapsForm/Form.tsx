@@ -26,6 +26,11 @@ export const MapsForm = ({ setData, testID }: FormProps) => {
 			setError(message);
 			return null;
 		}
+		
+		if (!link.includes('https://www.google.com/maps')) {
+			setError('Link jest nieprawidłowy');
+			return null;	
+		}
 
 		setError('');
 		setLoading(true);
@@ -40,7 +45,7 @@ export const MapsForm = ({ setData, testID }: FormProps) => {
 			});
 
 			if (!response.ok) {
-				throw new Error('Link jest nieprawidłowy');
+				throw new Error('Wystąpił błąd');
 			}
 
 			const resData: Contact[] = await response.json();
@@ -48,7 +53,7 @@ export const MapsForm = ({ setData, testID }: FormProps) => {
 			setData(resData);
 			setError('');
 		} catch (ex) {
-			setError('Link jest nieprawidłowy!');
+			setError('Wystąpił błąd');
 		}
 
 		setLoading(false);
@@ -66,7 +71,7 @@ export const MapsForm = ({ setData, testID }: FormProps) => {
 						Wyślij
 					</button>
 				) : (
-					<ThreeDots visible={true} height={80} width={80} color='#ee5622' radius={9} ariaLabel='three-dots-loading' />
+					<ThreeDots data-testid='dots-loader' visible={true} height={80} width={80} color='#ee5622' radius={9} ariaLabel='three-dots-loading' />
 				)}
 				{error && <ErrorComponent message={error} />}
 			</form>
