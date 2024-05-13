@@ -36,17 +36,17 @@ export const Sidebar = ({ isOpen, user }: SidebarTypes) => {
 	}, [isOpen]);
 
 	return (
-		<div className={`${styles.sidebar} ${isSidebarOpen}`}>
+		<div data-testid='sidebar-container' className={`${styles.sidebar} ${isSidebarOpen}`}>
 			<div className={styles['sidebar__top']}>
-				<p className={styles.nick}>{user?.nickname}</p>
-				<p className={styles.email}>{user?.email}</p>
-				<Button onClick={onClickHandler}>Wyloguj</Button>
+				<p data-testid='sidebar-nickname' className={styles.nick}>{user?.nickname}</p>
+				<p data-testid='sidebar-email' className={styles.email}>{user?.email}</p>
+				<Button testID='sidebar-logout' onClick={onClickHandler}>Wyloguj</Button>
 			</div>
 			<div className={styles['sidebar__bottom']}>
-				<a className={styles.link} href='/profil'>
+				<a data-testid='sidebar-profile' className={styles.link} href='/profil'>
 					Profil
 				</a>
-				<a className={styles.link} href='/ustawienia'>
+				<a data-testid='sidebar-settings' className={styles.link} href='/ustawienia'>
 					Ustawienia
 				</a>
 			</div>

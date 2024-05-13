@@ -7,9 +7,10 @@ import { Error as ErrorComponent } from '../Error/Error';
 
 interface FormProps {
 	setData: Dispatch<SetStateAction<Contact[]>>;
+	testID: string;
 }
 
-export const MapsForm = ({ setData }: FormProps) => {
+export const MapsForm = ({ setData, testID }: FormProps) => {
 	const [link, setLink] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string>('');
@@ -54,14 +55,14 @@ export const MapsForm = ({ setData }: FormProps) => {
 	};
 
 	return (
-		<div className={styles['form__container']}>
-			<form className={styles.form} action='http://localhost:3000/data' method='POST'>
+		<div data-testid={testID} className={styles['form__container']}>
+			<form className={styles.form}>
 				<div className={styles['form__frame']}>
-					<input className={styles['form__input']} type='text' value={link} onChange={e => setLink(e.target.value)} />
+					<input data-testid='maps-form-input' className={styles['form__input']} type='text' value={link} onChange={e => setLink(e.target.value)} />
 					<FormCorners />
 				</div>
 				{!loading ? (
-					<button className={styles['form__button']} onClick={onClickHandler} type='submit'>
+					<button data-testid='main-submit' className={styles['form__button']} onClick={onClickHandler} type='submit'>
 						Wyślij
 					</button>
 				) : (
