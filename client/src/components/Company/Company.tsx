@@ -95,7 +95,7 @@ export const Company = ({ company, setGlobalData }: Company) => {
 	}, [errorMsg]);
 
 	return (
-		<div className={styles.company}>
+		<div data-testid='profile-company' className={styles.company}>
 			{!errorMsg ? (
 				<>
 					<input onChange={e => handleChange(e)} className={styles.input} type='text' value={data.name} name='name' />

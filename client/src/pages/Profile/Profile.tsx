@@ -51,11 +51,11 @@ export const Profile = () => {
 					{showError()}
 					<header className={styles.header}>
 						<div className={styles.info}>
-							<h2 className={styles.title}>{user?.nickname}</h2>
+							<h2 data-testid='profile-nickname' className={styles.title}>{user?.nickname}</h2>
 							<div className={styles.divider} />
-							<p className={styles.email}>{user?.email}</p>
+							<p data-testid='profile-email' className={styles.email}>{user?.email}</p>
 						</div>
-						<p className={styles.saved}>Zapisanych kontaktów: {data?.length}</p>
+						<p data-testid='profile-saved-contacts' className={styles.saved}>Zapisanych kontaktów: {data?.length}</p>
 					</header>
 					<main className={styles.companies}>
 						{data &&

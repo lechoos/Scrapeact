@@ -9,7 +9,7 @@ interface LoaderType {
 export const Loader = ({ loading }: LoaderType) => {
 	if (loading) {
 		return (
-			<div className={styles.container}>
+			<div data-testid='test-loader' className={styles.container}>
 				<LottieAnimation classes={styles.lottie} animationData={animationData} />
 			</div>
 		);
