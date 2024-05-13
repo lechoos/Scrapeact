@@ -5,9 +5,9 @@ interface ErrorTypes {
 }
 
 export const Error = ({ message }: ErrorTypes) => {
-	return <p className={styles.error}>{message}</p>;
+	return <p data-testid='error-message' className={styles.error}>{message}</p>;
 };
 
 export const Success = ({ message }: ErrorTypes) => {
-	return <p className={styles.success}>{message}</p>;
+	return <p data-testid='success-message' className={styles.success}>{message}</p>;
 };
