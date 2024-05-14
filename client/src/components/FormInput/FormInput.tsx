@@ -31,6 +31,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputTypes>(({ name,
 	return (
 		<div className={styles['input-group']}>
 			<input
+				data-testid='forminput-input'
 				value={valueForTs || ''}
 				className={styles.input}
 				type='text'
@@ -39,7 +40,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputTypes>(({ name,
 				ref={ref}
 				onChange={handleChange}
 			/>
-			<label className={`${styles.placeholder} ${activeClass}`} htmlFor={name}>
+			<label data-testid='forminput-label' className={`${styles.placeholder} ${activeClass}`} htmlFor={name}>
 				{label}
 			</label>
 		</div>
