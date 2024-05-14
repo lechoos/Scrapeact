@@ -22,18 +22,18 @@ const RegisterController = (req, res) => {
 			.then(() => {
 				const accessToken = createTokens(newUser);
 
-				res.cookie('access-token', accessToken, {
-					maxAge: 60 * 60 * 24 * 30 * 1000,
-					httpOnly: true,
-					domain: 'localhost',
-					path: '/',
-				});
+				// res.cookie('access-token', accessToken, {
+				// 	maxAge: 60 * 60 * 24 * 30 * 1000,
+				// 	httpOnly: true,
+				// 	domain: 'localhost',
+				// 	path: '/',
+				// });
 
-				res.cookie('user', newUser._id, {
-					maxAge: 60 * 60 * 24 * 30 * 1000,
-				});
+				// res.cookie('user', newUser._id, {
+				// 	maxAge: 60 * 60 * 24 * 30 * 1000,
+				// });
 
-				res.status(202).json('Zapisano do bazy danych');
+				res.status(202).json({ ...newUser, accessToken: accessToken, id: newUser._id });
 			})
 			.catch(ex => {
 				res.status(400).json({ message: ex.message });

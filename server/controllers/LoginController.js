@@ -19,18 +19,7 @@ const LoginController = async (req, res) => {
 
 		const accessToken = createTokens(user);
 
-		res.cookie('access-token', accessToken, {
-			maxAge: 60 * 60 * 24 * 30 * 1000,
-			httpOnly: true,
-			domain: 'localhost',
-			path: '/',
-		});
-
-		res.cookie('user', user._id, {
-			maxAge: 60 * 60 * 24 * 30 * 1000,
-		});
-
-		return res.status(200);
+		return res.status(202).json({ ...user, accessToken: accessToken, id: user._id });
 	});
 };
 

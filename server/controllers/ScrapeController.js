@@ -2,10 +2,16 @@ const puppeteer = require('puppeteer');
 
 const ScrapeController = async (req, res) => {
 	const { link } = await req.body;
-	console.log(link);
+
+	const getBrowser = async () => {
+		return puppeteer.launch({
+			args: ['--no-sandbox', '--disable-setuid-sandbox'],
+			headless: true,
+		});
+	};
 
 	try {
-		const browser = await puppeteer.launch();
+		const browser = await getBrowser();
 		const page = await browser.newPage();
 		await page.setViewport({ width: 1536, height: 703 });
 		await page.goto(link);

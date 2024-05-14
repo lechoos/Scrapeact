@@ -3,13 +3,12 @@ const Contact = require('../models/Contact');
 
 const DeleteUserController = async (req, res) => {
 	const { _id } = await req.body;
+	console.log(_id);
 
 	try {
-		await User.findOneAndDelete({ _id: _id });
+		const dUser = await User.findOneAndDelete({ _id: _id });
+		console.log(dUser);
 		await Contact.deleteMany({ ownerID: _id });
-
-		res.clearCookie('access-token');
-		res.clearCookie('user');
 
 		res.status(200).json('Usunięto');
 	} catch (error) {
