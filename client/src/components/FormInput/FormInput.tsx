@@ -12,6 +12,8 @@ interface InputTypes {
 export const FormInput = React.forwardRef<HTMLInputElement, InputTypes>(({ name, label, onChange, value }, ref) => {
 	const [isActive, setIsActive] = useState(false);
 
+	const inputType = name === 'password' ? 'password' : 'text';
+
 	const activeClass = isActive && styles.active;
 
 	const valueForTs = value as string;
@@ -34,7 +36,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputTypes>(({ name,
 				data-testid='forminput-input'
 				value={valueForTs || ''}
 				className={styles.input}
-				type='text'
+				type={inputType}
 				name={name}
 				id={name}
 				ref={ref}
