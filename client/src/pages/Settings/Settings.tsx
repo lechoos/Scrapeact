@@ -131,12 +131,12 @@ export const Settings = () => {
 								{typeof response === 'object' && <Error message={response.message} />}
 								{typeof response === 'string' && <Success message={response} />}
 							</div>
-							<SubmitButton variant='secondary'>Zapisz</SubmitButton>
+							<SubmitButton testID='settings-submit' variant='secondary'>Zapisz</SubmitButton>
 						</form>
 					</div>
 					<div className={styles.delete}>
 						<h2 className={styles.subtitle}>Usuń konto</h2>
-						<Button onClick={onDelete}>Usuń konto</Button>
+						<Button testID='settings-delete' onClick={onDelete}>Usuń konto</Button>
 					</div>
 				</div>
 			</div>
