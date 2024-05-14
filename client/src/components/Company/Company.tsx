@@ -105,7 +105,7 @@ export const Company = ({ company, setGlobalData }: Company) => {
 							Link
 						</a>
 					</span>
-					<button onClick={() => handleClick(company)} className={styles.button} />
+					<button data-testid='company-delete-button' onClick={() => handleClick(company)} className={styles.button} />
 					{wasEdited && <button onClick={handleSave} className={styles.link}>Zapisz</button>}
 				</>
 			) : (
