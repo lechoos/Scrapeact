@@ -3,7 +3,7 @@ describe('Settings page', () => {
     const user = {
       nickname: 'Michał',
       email: 'michal@gmail.com',
-      _id: '6642d28ce0e4df3519a81425',
+      _id: '66430c7ce0e4df3519a81430',
       accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6Ik1pY2hhbCIsImlkIjoiNjY0MmQyOGNlMGU0ZGYzNTE5YTgxNDI1IiwiaWF0IjoxNzE1NjU1MzA4fQ.McsyRsaCfH5LUC9q0Fk8zGsf79afbnuJf95cBhBup2A',
       isInitialized: true,
       isLoggedIn: true,
@@ -19,8 +19,8 @@ describe('Settings page', () => {
   });
 
   it('should allow user to edit settings', () => {
-    cy.get('input[name="nickname"]').clear().type('Sloniowaty');
-    cy.get('input[name="email"]').clear().type('slon@bdf.com');
+    cy.get('input[name="nickname"]').clear().type('TestUser');
+    cy.get('input[name="email"]').clear().type('testest@gmail.com');
     
     cy.get('[data-testid="settings-submit"]').click();
     
