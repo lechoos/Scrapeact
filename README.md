@@ -9,6 +9,8 @@
 ![Static Badge](https://img.shields.io/badge/Node.js-%235FA04E?style=for-the-badge&logo=nodedotjs&labelColor=black) ![Static Badge](https://img.shields.io/badge/Express-%23000000?style=for-the-badge&logo=express&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/MongoDB-%2347A248?style=for-the-badge&logo=mongodb&labelColor=black) ![Static Badge](https://img.shields.io/badge/Puppeteer-%2340B5A4?style=for-the-badge&logo=puppeteer&labelColor=black)
 
+## Current status: API isn't working due to problems with a VPS provider. Lots of apologizes for the inconvenience, I am working day and night to fix that :( 
+
 # Scrapeact saves a lot of time finding prospects!
 If you're a freelance web developer you might find it struggling to find new potentials clients. 
 
